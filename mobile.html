@@ -1,1 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quatro — Мобильные игры</title>
+<style>
+  :root {
+    --bg:#0d0f12;
+    --card:#111418;
+    --text:#e6eef3;
+    --muted:#9aa0a6;
+    --accent:#53ff7a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 28px;
+    background:#0b0d0f;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  header h1{
+    font-size:18px;
+    color:var(--accent);
+    margin:0;
+  }
+  nav a{
+    color:var(--text);
+    text-decoration:none;
+    margin:0 12px;
+    font-size:14px;
+  }
+  nav a:hover{color:var(--accent);}
+
+  .content{
+    max-width:1100px;
+    margin:0 auto;
+    padding:24px;
+  }
+
+  /* Cards */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+    margin-top:20px;
+  }
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    overflow:hidden;
+    text-align:center;
+    padding:16px;
+    transition:0.2s;
+    box-shadow:0 2px 10px rgba(0,0,0,0.3);
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 4px 18px rgba(83,255,122,0.1);
+  }
+  .card img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-bottom:10px;
+  }
+  .card span{
+    display:block;
+    font-size:15px;
+    color:var(--muted);
+  }
+
+  /* Tabs */
+  .tabs{
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+  }
+  .tab{
+    flex:1;
+    text-align:center;
+    background:#161a1f;
+    padding:10px;
+    border-radius:10px;
+    font-size:14px;
+    text-decoration:none;
+    color:var(--text);
+    transition:0.2s;
+  }
+  .tab:hover{background:#1e242b;color:var(--accent);}
+  .tab.active{
+    border:1px solid var(--accent);
+    color:var(--accent);
+  }
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    padding:20px;
+    font-size:13px;
+    margin-top:40px;
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Quatro</h1>
+  <nav>
+    <a href="#">Главная</a>
+    <a href="#">Раздача</a>
+    <a href="#">Отзывы</a>
+    <a href="#">Поддержка</a>
+    <a href="#">Блог</a>
+  </nav>
+</header>
+
+<div class="content">
+
+  <h2 style="margin-top:10px;">Мобильные игры</h2>
+
+  <!-- Вкладки -->
+  <div class="tabs">
+    <a href="#" class="tab active">Мобильные игры</a>
+    <a href="#" class="tab">Компьютерные игры</a>
+    <a href="#" class="tab">Бот</a>
+  </div>
+
+  <!-- Карточки игр -->
+  <div class="cards">
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1182/1182146.png">
+      <span>PUBG Mobile</span>
+    </div>
+
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1182/1182160.png">
+      <span>Mobile Legends</span>
+    </div>
+
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1182/1182116.png">
+      <span>Arena Breakout</span>
+    </div>
+
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1182/1182173.png">
+      <span>Free Fire</span>
+    </div>
+
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1182/1182135.png">
+      <span>Brawl Stars</span>
+    </div>
+
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1182/1182123.png">
+      <span>Call of Duty Mobile</span>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Quatro — Все права защищены</footer>
+
+</body>
+</html>
 
