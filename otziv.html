@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quatro — Отзывы</title>
+
+<style>
+  :root {
+    --bg:#0d0f12;
+    --card:#111418;
+    --text:#e6eef3;
+    --muted:#9aa0a6;
+    --accent:#53ff7a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:Inter, Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 28px;
+    background:#0b0d0f;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  header h1{
+    font-size:18px;
+    color:var(--accent);
+    margin:0;
+  }
+  nav a{
+    color:var(--text);
+    text-decoration:none;
+    margin:0 12px;
+    font-size:14px;
+  }
+  nav a:hover{color:var(--accent);}
+
+  .content{
+    max-width:900px;
+    margin:0 auto;
+    padding:24px;
+  }
+
+  /* REVIEW CARD */
+  .review-card{
+    background:var(--card);
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.35);
+    animation:fadeIn .3s ease forwards;
+  }
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .review-author{
+    font-weight:600;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .review-text{
+    color:var(--text);
+    font-size:15px;
+    line-height:1.4;
+  }
+  .review-date{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:12px;
+  }
+
+  /* FORM */
+  .form-box{
+    background:var(--card);
+    border-radius:14px;
+    padding:22px;
+    margin-top:30px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.35);
+  }
+  .form-box h3{
+    margin-top:0;
+    color:var(--accent);
+    margin-bottom:12px;
+  }
+  input, textarea{
+    width:100%;
+    background:#161a1f;
+    border:1px solid #222831;
+    border-radius:10px;
+    padding:12px;
+    color:var(--text);
+    margin-bottom:12px;
+    font-size:15px;
+  }
+  textarea{height:120px; resize:none;}
+
+  .submit-btn{
+    background:var(--accent);
+    color:#0b0d0f;
+    border:none;
+    padding:10px 20px;
+    font-weight:600;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+  }
+  .submit-btn:hover{
+    background:#7bff99;
+    box-shadow:0 0 14px rgba(83,255,122,0.6);
+  }
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    padding:20px;
+    font-size:13px;
+    margin-top:40px;
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Quatro</h1>
+  <nav>
+    <a href="#">Главная</a>
+    <a href="#">Раздача</a>
+    <a href="#">Отзывы</a>
+    <a href="#">Поддержка</a>
+    <a href="#">Блог</a>
+  </nav>
+</header>
+
+<div class="content">
+
+  <h2>Отзывы клиентов</h2>
+
+  <!-- Контейнер отзывов -->
+  <div id="reviews"></div>
+
+  <!-- Форма -->
+  <div class="form-box">
+    <h3>Оставить отзыв</h3>
+    <input type="text" id="name" placeholder="Ваше имя">
+    <textarea id="reviewText" placeholder="Ваш отзыв"></textarea>
+    <button class="submit-btn" onclick="addReview()">Отправить</button>
+  </div>
+
+</div>
+
+<footer>© 2025 Quatro — Все права защищены</footer>
+
+<script>
+  // Загрузка отзывов
+  function loadReviews() {
+    let reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+    const container = document.getElementById("reviews");
+    container.innerHTML = "";
+
+    reviews.forEach(r => {
+      container.innerHTML += `
+        <div class="review-card">
+          <div class="review-author">${r.name}</div>
+          <div class="review-text">${r.text}</div>
+          <div class="review-date">${r.date}</div>
+        </div>`;
+    });
+  }
+
+  // Добавление отзыва
+  function addReview() {
+    let name = document.getElementById("name").value.trim();
+    let text = document.getElementById("reviewText").value.trim();
+
+    if (!name || !text) {
+      alert("Пожалуйста, заполните все поля!");
+      return;
+    }
+
+    let reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+
+    reviews.unshift({
+      name: name,
+      text: text,
+      date: new Date().toLocaleString("ru-RU")
+    });
+
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+
+    document.getElementById("name").value = "";
+    document.getElementById("reviewText").value = "";
+
+    loadReviews();
+  }
+
+  loadReviews();
+</script>
+
+</body>
+</html>
