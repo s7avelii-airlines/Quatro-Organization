@@ -134,127 +134,53 @@
     <a href="@quatroorg_bot" class="tab">Бот</a>
   </div>
 
- <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f3f3f3;
-    }
-
-    .cards {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        padding: 20px;
-    }
-
-    .card {
-        width: 150px;
-        background: white;
-        border-radius: 10px;
-        padding: 10px;
-        text-align: center;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        text-decoration: none;
-        color: black;
-        transition: 0.2s;
-    }
-
-    .card:hover {
-        transform: scale(1.05);
-    }
-
-    .card img {
-        width: 100%;
-        border-radius: 10px;
-        height: 100px;
-        object-fit: cover;
-    }
-
-    /* Модальное окно */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 10;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.6);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background: #fff;
-        padding: 20px;
-        width: 300px;
-        border-radius: 12px;
-        text-align: center;
-        position: relative;
-        animation: fadeIn 0.3s;
-    }
-
-    @keyframes fadeIn {
-        from {transform: scale(0.7); opacity: 0;}
-        to {transform: scale(1); opacity: 1;}
-    }
-
-    .close {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        cursor: pointer;
-        font-size: 28px;
-    }
-
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        background: #0057ff;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 8px;
-        margin-top: 15px;
-    }
-</style>
-</head>
-
-<body>
-
 <div class="cards">
 
-    <a class="card" data-game="PUBG Mobile" data-url="https://example.com/pubg">
+    <a class="card" data-game="PUBG Mobile"
+       data-url="https://example.com/pubg"
+       data-tariffs="60 UC — 70 ₽; 325 UC — 350 ₽; 660 UC — 690 ₽">
         <img src="images/images (4).avif">
         <span>PUBG Mobile</span>
     </a>
 
-    <a class="card" data-game="Delta Force" data-url="https://example.com/delta">
+    <a class="card" data-game="Delta Force"
+       data-url="https://example.com/delta"
+       data-tariffs="100 Gold — 90 ₽; 500 Gold — 400 ₽; 1200 Gold — 850 ₽">
         <img src="images/images (5).avif">
         <span>Delta Force</span>
     </a>
 
-    <a class="card" data-game="Arena Breakout" data-url="https://example.com/arena">
+    <a class="card" data-game="Arena Breakout"
+       data-url="https://example.com/arena"
+       data-tariffs="10 Credits — 50 ₽; 100 Credits — 450 ₽; 300 Credits — 1100 ₽">
         <img src="images/capsule_616x353.avif">
         <span>Arena Breakout</span>
     </a>
 
-    <a class="card" data-game="Free Fire" data-url="https://example.com/freefire">
+    <a class="card" data-game="Free Fire"
+       data-url="https://example.com/freefire"
+       data-tariffs="100 Diamonds — 90 ₽; 520 Diamonds — 420 ₽; 1080 Diamonds — 820 ₽">
         <img src="images/533488_bDnzdnOntX.avif">
         <span>Free Fire</span>
     </a>
 
-    <a class="card" data-game="Standoff 2" data-url="https://example.com/standoff">
+    <a class="card" data-game="Standoff 2"
+       data-url="https://example.com/standoff"
+       data-tariffs="100 Gold — 80 ₽; 500 Gold — 380 ₽; 1000 Gold — 750 ₽">
         <img src="images/standoff-2-sniper-guide-upd-ru.avif">
         <span>Standoff 2</span>
     </a>
 
-    <a class="card" data-game="Mobile Legends" data-url="https://example.com/mobilelegends">
+    <a class="card" data-game="Mobile Legends"
+       data-url="https://example.com/mobilelegends"
+       data-tariffs="86 Diamonds — 110 ₽; 257 Diamonds — 320 ₽; 514 Diamonds — 600 ₽">
         <img src="images/1600089955_1.avif">
         <span>Mobile Legends</span>
     </a>
 
-    <a class="card" data-game="Genshin Impact" data-url="https://example.com/genshin">
+    <a class="card" data-game="Genshin Impact"
+       data-url="https://example.com/genshin"
+       data-tariffs="60 Crystals — 70 ₽; 300 Crystals — 320 ₽; 980 Crystals — 900 ₽">
         <img src="images/01_Kak_igrat_v_Genshin_Impact.avif">
         <span>GENSHIN</span>
     </a>
@@ -268,11 +194,7 @@
 
         <h2 id="gameTitle"></h2>
 
-        <div class="tariffs">
-            <p>100 ₽ — Мини</p>
-            <p>300 ₽ — Стандарт</p>
-            <p>500 ₽ — Премиум</p>
-        </div>
+        <div id="tariffList"></div>
 
         <a id="redirectBtn" class="btn" target="_blank">Перейти</a>
     </div>
@@ -285,8 +207,14 @@ document.querySelectorAll(".card").forEach(card => {
 
         const gameName = this.dataset.game;
         const url = this.dataset.url;
+        const tariffs = this.dataset.tariffs.split(";");
 
         document.getElementById("gameTitle").innerText = gameName;
+
+        let html = "";
+        tariffs.forEach(t => html += `<p>${t.trim()}</p>`);
+        document.getElementById("tariffList").innerHTML = html;
+
         document.getElementById("redirectBtn").href = url;
 
         document.getElementById("modal").style.display = "flex";
