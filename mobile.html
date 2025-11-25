@@ -134,45 +134,174 @@
     <a href="@quatroorg_bot" class="tab">Бот</a>
   </div>
 
- <div class="cards">
+ <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f3f3f3;
+    }
 
-  <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/images (4).avif">
-    <span>PUBG Mobile</span>
-  </a>
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 20px;
+    }
 
-  <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/images (5).avif">
-    <span>Delta Forse</span>
-  </a>
+    .card {
+        width: 150px;
+        background: white;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-decoration: none;
+        color: black;
+        transition: 0.2s;
+    }
 
-  <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/capsule_616x353.avif">
-    <span>Arena Breakout</span>
-  </a>
+    .card:hover {
+        transform: scale(1.05);
+    }
 
-  <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/533488_bDnzdnOntX_a276e1f3_6ecb_4589_91cc_6638a486.avif">
-    <span>Free Fire</span>
-  </a>
+    .card img {
+        width: 100%;
+        border-radius: 10px;
+        height: 100px;
+        object-fit: cover;
+    }
 
-  <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/standoff-2-sniper-guide-upd-ru.avif">
-    <span>Standoff 2</span>
-  </a>
+    /* Модальное окно */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        justify-content: center;
+        align-items: center;
+    }
 
-  <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/1600089955_1.avif">
-    <span>Mobile legrends</span>
-  </a>
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        width: 300px;
+        border-radius: 12px;
+        text-align: center;
+        position: relative;
+        animation: fadeIn 0.3s;
+    }
 
-    <a href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" class="card" style="text-decoration:none;">
-    <img src="images/01_Kak_igrat_v_Genshin_Impact_a44a38bec5.avif">
-    <span>GENSHIN</span>
-  </a>
+    @keyframes fadeIn {
+        from {transform: scale(0.7); opacity: 0;}
+        to {transform: scale(1); opacity: 1;}
+    }
+
+    .close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        cursor: pointer;
+        font-size: 28px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #0057ff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="cards">
+
+    <a class="card" data-game="PUBG Mobile" data-url="https://example.com/pubg">
+        <img src="images/images (4).avif">
+        <span>PUBG Mobile</span>
+    </a>
+
+    <a class="card" data-game="Delta Force" data-url="https://example.com/delta">
+        <img src="images/images (5).avif">
+        <span>Delta Force</span>
+    </a>
+
+    <a class="card" data-game="Arena Breakout" data-url="https://example.com/arena">
+        <img src="images/capsule_616x353.avif">
+        <span>Arena Breakout</span>
+    </a>
+
+    <a class="card" data-game="Free Fire" data-url="https://example.com/freefire">
+        <img src="images/533488_bDnzdnOntX.avif">
+        <span>Free Fire</span>
+    </a>
+
+    <a class="card" data-game="Standoff 2" data-url="https://example.com/standoff">
+        <img src="images/standoff-2-sniper-guide-upd-ru.avif">
+        <span>Standoff 2</span>
+    </a>
+
+    <a class="card" data-game="Mobile Legends" data-url="https://example.com/mobilelegends">
+        <img src="images/1600089955_1.avif">
+        <span>Mobile Legends</span>
+    </a>
+
+    <a class="card" data-game="Genshin Impact" data-url="https://example.com/genshin">
+        <img src="images/01_Kak_igrat_v_Genshin_Impact.avif">
+        <span>GENSHIN</span>
+    </a>
 
 </div>
 
+<!-- Модальное окно -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="closeBtn" class="close">&times;</span>
+
+        <h2 id="gameTitle"></h2>
+
+        <div class="tariffs">
+            <p>100 ₽ — Мини</p>
+            <p>300 ₽ — Стандарт</p>
+            <p>500 ₽ — Премиум</p>
+        </div>
+
+        <a id="redirectBtn" class="btn" target="_blank">Перейти</a>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        const gameName = this.dataset.game;
+        const url = this.dataset.url;
+
+        document.getElementById("gameTitle").innerText = gameName;
+        document.getElementById("redirectBtn").href = url;
+
+        document.getElementById("modal").style.display = "flex";
+    });
+});
+
+document.getElementById("closeBtn").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+};
+
+window.onclick = (e) => {
+    if (e.target === document.getElementById("modal"))
+        document.getElementById("modal").style.display = "none";
+};
+</script>
 
 <footer>© 2025 Quatro — Все права защищены</footer>
 
