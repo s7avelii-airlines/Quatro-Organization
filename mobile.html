@@ -15,7 +15,7 @@
   *{box-sizing:border-box}
   body{
     margin:0;
-    font-family:Inter, Roboto, Arial, sans-serif;
+    font-family:Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
     background:var(--bg);
     color:var(--text);
   }
@@ -39,14 +39,114 @@
     font-size:14px;
   }
   nav a:hover{color:var(--accent);}
-
   .content{
     max-width:1100px;
     margin:0 auto;
     padding:24px;
   }
 
-  /* Cards */
+  /* --- BOT --- */
+  .bot-section{
+    margin-top:20px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:18px;
+    padding:24px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(2,6,23,0.7);
+  }
+  .neon-frame{
+    position:absolute;
+    inset:8px;
+    border-radius:14px;
+    pointer-events:none;
+    box-shadow:0 0 18px 6px rgba(83,255,122,0.06),
+               0 0 40px 10px rgba(83,255,122,0.03);
+    border:2px solid rgba(83,255,122,0.06);
+  }
+  .bot-row{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .bot-img{
+    flex:0 0 200px;
+    height:200px;
+    border-radius:14px;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,0.04);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02),
+                               rgba(0,0,0,0.25));
+  }
+  .bot-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .bot-content{
+    flex:1;
+    min-width:250px;
+  }
+  .bot-content h2{
+    margin:0 0 10px 0;
+    font-size:22px;
+    color:#e9fbef;
+  }
+  .bot-hours{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:10px;
+  }
+  .bot-content ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+  .bot-content li{
+    margin:8px 0;
+    padding-left:26px;
+    position:relative;
+    font-size:15px;
+  }
+  .bot-content li:before{
+    content:"✔";
+    position:absolute;
+    left:0;
+    color:var(--accent);
+    font-weight:700;
+    text-shadow:0 2px 10px rgba(83,255,122,0.6);
+  }
+  .bot-link{
+    display:inline-block;
+    margin-top:14px;
+    background:var(--accent);
+    color:#0b0d0f;
+    text-decoration:none;
+    font-weight:600;
+    padding:10px 20px;
+    border-radius:10px;
+    transition:0.2s;
+  }
+  .bot-link:hover{
+    background:#7bff99;
+    box-shadow:0 0 14px rgba(83,255,122,0.6);
+  }
+  .neon-handwritten{
+    position:absolute;
+    right:18px;
+    top:18px;
+    font-weight:800;
+    color:var(--accent);
+    font-size:56px;
+    transform:skewX(-6deg);
+    text-shadow:0 8px 22px rgba(83,255,122,0.25),
+                 0 0 40px rgba(83,255,122,0.18);
+    opacity:0.12;
+    pointer-events:none;
+  }
+
+  /* --- CARD SECTION --- */
   .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -61,7 +161,6 @@
     padding:16px;
     transition:0.2s;
     box-shadow:0 2px 10px rgba(0,0,0,0.3);
-    cursor:pointer;
   }
   .card:hover{
     transform:translateY(-4px);
@@ -74,13 +173,9 @@
     border-radius:12px;
     margin-bottom:10px;
   }
-  .card span{
-    display:block;
-    font-size:15px;
-    color:var(--muted);
-  }
+  .card span{display:block;font-size:14px;color:var(--muted);}
 
-  /* Tabs */
+  /* --- TABS --- */
   .tabs{
     display:flex;
     gap:10px;
@@ -98,10 +193,8 @@
     transition:0.2s;
   }
   .tab:hover{background:#1e242b;color:var(--accent);}
-  .tab.active{
-    border:1px solid var(--accent);
-    color:var(--accent);
-  }
+  .tab.star{border:1px solid #4b9cff;}
+  .tab.red{border:1px solid #e94a4a;}
 
   footer{
     text-align:center;
@@ -112,71 +205,11 @@
     border-top:1px solid rgba(255,255,255,0.05);
   }
 
-  /* ------------ MODAL FIX ------------ */
-
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 50;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.65);
-    justify-content: center;
-    align-items: center;
+  @media(max-width:700px){
+    .bot-row{flex-direction:column;align-items:flex-start;}
+    .bot-img{width:150px;height:150px;}
+    .neon-handwritten{display:none;}
   }
-
-  .modal-content {
-    background: #111418;
-    padding: 22px;
-    width: 320px;
-    border-radius: 16px;
-    color: var(--text);
-    text-align: center;
-    position: relative;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
-    animation: fadeIn 0.25s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-  }
-
-  .close {
-    position: absolute;
-    right: 14px;
-    top: 10px;
-    cursor: pointer;
-    font-size: 26px;
-    color: var(--muted);
-  }
-  .close:hover {
-    color: var(--accent);
-  }
-
-  #tariffList p {
-    margin: 8px 0;
-    color: var(--muted);
-    font-size: 15px;
-  }
-
-  .btn {
-    display: inline-block;
-    margin-top: 14px;
-    padding: 10px 18px;
-    background: var(--accent);
-    color: #000;
-    font-weight: 600;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: 0.2s;
-  }
-  .btn:hover {
-    filter: brightness(1.1);
-  }
-
 </style>
 </head>
 <body>
@@ -185,7 +218,7 @@
   <h1>Quatro</h1>
   <nav>
     <a href="index.html">Главная</a>
-    <a href="#">Отзывы</a>
+    <a href="otziv.html">Отзывы</a>
     <a href="#">Поддержка</a>
   </nav>
 </header>
