@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quatro — Оплата</title>
+<style>
+  :root {
+    --bg:#0d0f12;
+    --card:#111418;
+    --text:#e6eef3;
+    --muted:#9aa0a6;
+    --accent:#53ff7a;
+  }
+  body{
+    margin:0;
+    font-family:Inter, Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 28px;
+    background:#0b0d0f;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  header h1{
+    font-size:18px;
+    margin:0;
+    color:var(--accent);
+  }
+  nav a{
+    color:var(--text);
+    text-decoration:none;
+    margin:0 12px;
+    font-size:14px;
+  }
+  nav a:hover{color:var(--accent);}
+
+  .content{
+    max-width:900px;
+    margin:0 auto;
+    padding:26px;
+  }
+
+  .block{
+    background:var(--card);
+    padding:24px;
+    border-radius:16px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.3);
+    margin-top:20px;
+  }
+
+  h2{
+    margin-top:10px;
+  }
+
+  .pay-item{
+    background:#161a1f;
+    padding:14px;
+    border-radius:12px;
+    margin-top:10px;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+
+  .pay-item b{
+    color:var(--accent);
+  }
+
+  .link-btn{
+    display:inline-block;
+    margin-top:10px;
+    background:var(--accent);
+    color:#000;
+    padding:10px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+  }
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    padding:20px;
+    margin-top:40px;
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Quatro</h1>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="otziv.html">Отзывы</a>
+    <a href="#">Поддержка</a>
+  </nav>
+</header>
+
+<div class="content">
+
+<h2>Оплата услуг</h2>
+
+<div class="block">
+
+  <p style="color:var(--muted);margin-top:-5px;margin-bottom:20px;">
+    Выберите удобный способ оплаты. После оплаты обязательно отправьте чек и данные для пополнения.
+  </p>
+
+  <div class="pay-item">
+    <b>По номеру телефона:</b><br>
+    79379776690
+  </div>
+
+  <div class="pay-item">
+    <b>По номеру карты:</b><br>
+    2200 7020 1711 0482
+  </div>
+
+  <div class="pay-item">
+    <b>Ссылка на оплату Т-Банк:</b><br>
+    <a class="link-btn" href="https://www.tinkoff.ru/rm/r_AvZjScIufc.fUHNxtCTTG/zlcf442937" target="_blank">
+      Открыть ссылку
+    </a>
+  </div>
+
+  <div class="pay-item">
+    <b>Важно!</b><br>
+    После оплаты отправьте:<br>
+    • чек<br>
+    • выбранную услугу<br>
+    • данные для пополнения на ваш аккаунт
+  </div>
+
+  <div class="pay-item">
+    <b>Проверка чеков:</b><br>
+    Все чеки проходят обязательную проверку на подлинность перед выполнением услуги.
+  </div>
+
+  <div class="pay-item">
+    <b>Перед заказом:</b><br>
+    В шаге выбора товара уточните, какие данные необходимо указать для пополнения вашего аккаунта.
+  </div>
+
+</div>
+
+</div>
+
+<footer>
+  © 2025 Quatro — Все права защищены, create by S7avelii-IT
+</footer>
+
+</body>
+</html>
