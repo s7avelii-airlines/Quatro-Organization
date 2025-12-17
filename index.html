@@ -274,9 +274,9 @@
   // ===== НАСТРОЙКА РЕЙСОВ (редактируешь ТЫ) =====
   const flights = [
     {
-      time: '16:50',
-      oldTime: '15:30',
-      direction: 'Стамбул',
+      time: '14:50',
+      oldTime: '13:30',
+      direction: 'Тель-Авив',
       flight: 'A4-3025',
       airline: 'АЗИМУТ',
       logo: 'azimut.png',
@@ -284,23 +284,23 @@
       statuses: [
         { from: '13:50', text: 'Регистрация' },
         { from: '14:20', text: 'Посадка' },
-        { from: '16:50', text: 'Посадка окончена' }
+        { from: '14:50', text: 'Посадка окончена' }
       ]
     },
     {
-      time: '17:10',
-      direction: 'Сургут',
+      time: '15:10',
+      direction: 'Москва / ВНК',
       flight: 'UT-576',
       airline: 'ЮТэйр',
       logo: 'utair.png',
       gate: '5, 6 / 1',
       statuses: [
         { from: '14:10', text: 'Регистрация' },
-        { from: '17:10', text: 'Посадка окончена' }
+        { from: '14:40', text: 'Посадка' }
       ]
     },
     {
-      time: '17:35',
+      time: '15:35',
       direction: 'Москва / ШРМ',
       flight: 'SU-1209',
       airline: 'Аэрофлот',
@@ -308,7 +308,7 @@
       gate: '1, 2 / 1',
       statuses: [
         { from: '14:30', text: 'Регистрация' },
-        { from: '17:10', text: 'Посадка окончена' }
+        { from: '15:10', text: 'Регистрация / посадка' }
       ]
     }
   ];
@@ -329,7 +329,7 @@
     flight.statuses.forEach(s => {
       if (nowMin >= timeToMinutes(s.from)) current = s.text;
     });
-    return current;
+    return current || 'Ожидание';
   });
     return current;
   }
