@@ -168,16 +168,18 @@
 
     /* ===== Табло ===== */
     .board {
-      background: #ecfdf3;
-      border-radius: 18px;
-      padding: 16px;
+      background: transparent;
+      padding: 0;
     }
 
     .board-header, .row {
       display: grid;
-      grid-template-columns: 120px 1.5fr 1fr 1.5fr 1fr 1fr;
+      grid-template-columns: 120px 1.6fr 1fr 1.6fr 1fr 1fr;
       align-items: center;
-      padding: 14px 16px;
+      padding: 20px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 400;
+      width: 100%;
     }
 
     .board-header {
@@ -263,6 +265,9 @@
     <button>Искать</button>
   </div>
 
+  <div style="margin-bottom:16px">
+    <button id="toggleArchive" style="background:none;border:none;color:#22c55e;font-weight:600;cursor:pointer">Показать вылетевшие ▾</button>
+  </div>
   <div class="board" id="board"></div>
 
 <script>
@@ -320,10 +325,12 @@
   }
 
   function getStatus(flight, nowMin) {
-    let current = 'В пути';
+    let current = null;
     flight.statuses.forEach(s => {
       if (nowMin >= timeToMinutes(s.from)) current = s.text;
     });
+    return current;
+  });
     return current;
   }
 
@@ -340,9 +347,21 @@
 
     flights.forEach(f => {
       const status = getStatus(f, nowMin);
+      const isDeparted = status === 'Вылетел' || status === 'Посадка окончена';
+
+      if (isDeparted && !showArchive) return;
+
       board.innerHTML += `
-        <div class="row">
-          <div>${f.time}${f.oldTime ? `<span style="color:#ef4444;margin-left:8px">${f.oldTime}</span>` : ''}</div>
+        <div class="row ${isDeparted ? 'archived' : ''}">
+          <div>${f.time}${f.oldTime ? `<span style="color:#94a3b8;text-decoration:line-through;margin-left:8px">${f.oldTime}</span>` : ''}</div>
+          <div>${f.direction}</div>
+          <div>${f.flight}</div>
+          <div class="airline"><img src="${f.logo}">${f.airline}</div>
+          <div>${f.gate}</div>
+          <div class="status">${status ?? ''}</div>
+        </div>`;
+    });
+  }${f.oldTime ? `<span style="color:#ef4444;margin-left:8px">${f.oldTime}</span>` : ''}</div>
           <div>${f.direction}</div>
           <div>${f.flight}</div>
           <div class="airline"><img src="${f.logo}">${f.airline}</div>
@@ -351,6 +370,15 @@
         </div>`;
     });
   }
+
+  let showArchive = false;
+  document.getElementById('toggleArchive').onclick = () => {
+    showArchive = !showArchive;
+    document.getElementById('toggleArchive').textContent = showArchive
+      ? 'Скрыть вылетевшие ▴'
+      : 'Показать вылетевшие ▾';
+    renderBoard();
+  };
 
   renderBoard();
   setInterval(renderBoard, 30000);
