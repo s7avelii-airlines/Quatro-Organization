@@ -271,144 +271,145 @@
   <div class="board" id="board"></div>
 
 <script>
-  // ===== НАСТРОЙКА РЕЙСОВ (редактируешь ТЫ) =====
-  const flights = [
-    {
-      time: '21:10',
-      oldTime: '20:30',
-      direction: 'Тель-Авив',
-      flight: 'A4-3025',
-      airline: 'АЗИМУТ',
-      logo: 'azimut.png',
-      gate: '8 / 2',
-      statuses: [
-        { from: '13:50', text: 'Регистрация' },
-        { from: '14:20', text: 'Посадка' },
-        { from: '21:10', text: 'Посадка окончена' }
-      ]
-    },
-    {
-      time: '21:20',
-      direction: 'Москва / ВНК',
-      flight: 'UT-576',
-      airline: 'ЮТэйр',
-      logo: 'utair.png',
-      gate: '5, 6 / 1',
-      statuses: [
-        { from: '14:10', text: 'Регистрация' },
-        { from: '21:20', text: 'Посадка окончена' }
-      ]
-    },
-    {
-      time: '21:35',
-      direction: 'Москва / ШРМ',
-      flight: 'SU-1209',
-      airline: 'Аэрофлот',
-      logo: 'aeroflot.png',
-      gate: '1, 2 / 1',
-      statuses: [
-        { from: '14:30', text: 'Регистрация' },
-        { from: '21:10', text: 'Регистрация / посадка' }
-      ]
+/* ===== ВРЕМЯ САРАТОВ ===== */
+function saratovNow() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utc + 4 * 60 * 60000);
+}
+
+function timeToMinutes(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+/* ===== РЕЙСЫ ===== */
+const flights = [
+  {
+    time: '21:10',
+    oldTime: '20:30',
+    direction: 'Тель-Авив',
+    flight: 'A4-3025',
+    airline: 'АЗИМУТ',
+    logo: 'azimut.png',
+    gate: '8 / 2',
+    statuses: [
+      { from: '13:50', text: 'Регистрация' },
+      { from: '14:20', text: 'Посадка' },
+      { from: '21:10', text: 'Посадка окончена' }
+    ]
+  },
+  {
+    time: '21:20',
+    direction: 'Москва / ВНК',
+    flight: 'UT-576',
+    airline: 'ЮТэйр',
+    logo: 'utair.png',
+    gate: '5, 6 / 1',
+    statuses: [
+      { from: '14:10', text: 'Регистрация' },
+      { from: '21:20', text: 'Посадка окончена' }
+    ]
+  },
+  {
+    time: '21:35',
+    direction: 'Москва / ШРМ',
+    flight: 'SU-1209',
+    airline: 'Аэрофлот',
+    logo: 'aeroflot.png',
+    gate: '1, 2 / 1',
+    statuses: [
+      { from: '14:30', text: 'Регистрация' },
+      { from: '21:10', text: 'Регистрация / посадка' }
+    ]
+  }
+];
+
+/* ===== СТАТУС ===== */
+function getStatus(flight, nowMin) {
+  let current = null;
+  flight.statuses.forEach(s => {
+    if (nowMin >= timeToMinutes(s.from)) {
+      current = s.text;
     }
-  ];
-
-  function saratovNow() {
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utc + 4 * 60 * 60000);
-  }
-
-  function timeToMinutes(t) {
-    const [h, m] = t.split(':').map(Number);
-    return h * 60 + m;
-  }
-
-  function getStatus(flight, nowMin) {
-    let current = null;
-    flight.statuses.forEach(s => {
-      if (nowMin >= timeToMinutes(s.from)) current = s.text;
-    });
-    return current || 'Ожидание';
   });
-    return current;
-  }
+  return current || 'Ожидание';
+}
 
-  function renderBoard() {
-    const board = document.getElementById('board');
-    board.innerHTML = `
-      <div class="board-header">
-        <div>Вылет</div><div>Направление</div><div>Рейс</div>
-        <div>Авиакомпания</div><div>Выход</div><div>Статус</div>
-      </div>`;
+/* ===== РЕНДЕР ===== */
+let showArchive = false;
 
-    const now = saratovNow();
-    const nowMin = now.getHours() * 60 + now.getMinutes();
+function renderBoard() {
+  const board = document.getElementById('board');
+  board.innerHTML = `
+    <div class="board-header">
+      <div>Вылет</div>
+      <div>Направление</div>
+      <div>Рейс</div>
+      <div>Авиакомпания</div>
+      <div>Выход</div>
+      <div>Статус</div>
+    </div>
+  `;
 
-    flights.forEach(f => {
-      const status = getStatus(f, nowMin);
-      const isDeparted = status === 'Вылетел' || status === 'Посадка окончена';
+  const now = saratovNow();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
 
-      if (isDeparted && !showArchive) return;
+  flights.forEach(f => {
+    const status = getStatus(f, nowMin);
+    const isDeparted = status === 'Посадка окончена';
 
-      board.innerHTML += `
-        <div class="row ${isDeparted ? 'archived' : ''}">
-          <div>${f.time}${f.oldTime ? `<span style="color:#94a3b8;text-decoration:line-through;margin-left:8px">${f.oldTime}</span>` : ''}</div>
-          <div>${f.direction}</div>
-          <div>${f.flight}</div>
-          <div class="airline"><img src="${f.logo}">${f.airline}</div>
-          <div>${f.gate}</div>
-          <div class="status">${status ?? ''}</div>
-        </div>`;
-    });
-  }${f.oldTime ? `<span style="color:#ef4444;margin-left:8px">${f.oldTime}</span>` : ''}</div>
-          <div>${f.direction}</div>
-          <div>${f.flight}</div>
-          <div class="airline"><img src="${f.logo}">${f.airline}</div>
-          <div>${f.gate}</div>
-          <div class="status">${status}</div>
-        </div>`;
-    });
-  }
+    if (isDeparted && !showArchive) return;
 
-  let showArchive = false;
-  document.getElementById('toggleArchive').onclick = () => {
-    showArchive = !showArchive;
-    document.getElementById('toggleArchive').textContent = showArchive
-      ? 'Скрыть вылетевшие ▴'
-      : 'Показать вылетевшие ▾';
-    renderBoard();
-  };
+    board.innerHTML += `
+      <div class="row ${isDeparted ? 'archived' : ''}">
+        <div>
+          ${f.time}
+          ${f.oldTime ? `<span style="color:#94a3b8;text-decoration:line-through;margin-left:8px">${f.oldTime}</span>` : ''}
+        </div>
+        <div>${f.direction}</div>
+        <div>${f.flight}</div>
+        <div class="airline"><img src="${f.logo}">${f.airline}</div>
+        <div>${f.gate}</div>
+        <div class="status">${status}</div>
+      </div>
+    `;
+  });
+}
 
+/* ===== АРХИВ ===== */
+document.getElementById('toggleArchive').onclick = () => {
+  showArchive = !showArchive;
+  document.getElementById('toggleArchive').textContent =
+    showArchive ? 'Скрыть вылетевшие ▴' : 'Показать вылетевшие ▾';
   renderBoard();
-  setInterval(renderBoard, 30000);
-</script>
+};
 
-<script>
-  function saratovNow() {
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utc + 4 * 60 * 60000);
-  }
+renderBoard();
+setInterval(renderBoard, 30000);
 
-  function updateTime() {
-    const now = saratovNow();
-    document.getElementById('time').textContent =
-      now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' (UTC+4)';
-    document.getElementById('date').textContent =
-      now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ', ' +
-      now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-  }
+/* ===== ВРЕМЯ + ПОГОДА ===== */
+function updateTime() {
+  const now = saratovNow();
+  document.getElementById('time').textContent =
+    now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' (UTC+4)';
+  document.getElementById('date').textContent =
+    now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ', ' +
+    now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
 
-  async function loadWeather() {
-    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5333&longitude=46.0167&current_weather=true');
-    const data = await res.json();
-    document.getElementById('weather').textContent = '☀ ' + Math.round(data.current_weather.temperature) + '°';
-  }
+async function loadWeather() {
+  const res = await fetch(
+    'https://api.open-meteo.com/v1/forecast?latitude=51.5333&longitude=46.0167&current_weather=true'
+  );
+  const data = await res.json();
+  document.getElementById('weather').textContent =
+    '☀ ' + Math.round(data.current_weather.temperature) + '°';
+}
 
-  updateTime();
-  loadWeather();
-  setInterval(updateTime, 30000);
+updateTime();
+loadWeather();
+setInterval(updateTime, 30000);
 </script>
 
 </body>
