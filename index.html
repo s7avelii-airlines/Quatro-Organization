@@ -203,8 +203,13 @@
     }
 
     .status {
-      font-weight: 700;
-      color: #22c55e;
+      padding: 10px 18px;
+      background: #f8fafc;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #334155;
+      text-align: center;
+      white-space: nowrap;
     }
 
     @media (max-width: 900px) {
@@ -264,18 +269,17 @@
   // ===== НАСТРОЙКА РЕЙСОВ (редактируешь ТЫ) =====
   const flights = [
     {
-      time: '16:50',
+      time: '14:50',
       oldTime: '13:30',
-      direction: 'Москва/ЖКА',
-      flight: 'S7-3025',
-      airline: 'Савелий (S7avelii Airlines)',
+      direction: 'Тель-Авив',
+      flight: 'A4-3025',
+      airline: 'АЗИМУТ',
       logo: 'azimut.png',
       gate: '8 / 2',
       statuses: [
-        { from: '16:15', text: 'Регистрация окончена' },
-        { from: '16:20', text: 'Посадка' },
-        { from: '16:40', text: 'Посадка окончена' },
-        { from: '16:50', text: 'Вылетел' }
+        { from: '13:50', text: 'Регистрация' },
+        { from: '14:20', text: 'Посадка' },
+        { from: '14:50', text: 'Посадка окончена' }
       ]
     },
     {
@@ -288,6 +292,18 @@
       statuses: [
         { from: '14:10', text: 'Регистрация' },
         { from: '14:40', text: 'Посадка' }
+      ]
+    },
+    {
+      time: '15:35',
+      direction: 'Москва / ШРМ',
+      flight: 'SU-1209',
+      airline: 'Аэрофлот',
+      logo: 'aeroflot.png',
+      gate: '1, 2 / 1',
+      statuses: [
+        { from: '14:30', text: 'Регистрация' },
+        { from: '15:10', text: 'Регистрация / посадка' }
       ]
     }
   ];
@@ -369,4 +385,3 @@
 
 </body>
 </html>
-
