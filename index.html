@@ -208,102 +208,91 @@
 </div>
 
 <script>
-  const flightsData = [
-    {
-      time: '15:10',
-      city: 'Москва / ВНК',
-      flight: 'UT-576',
-      airline: 'ЮТэйр',
-      gate: '5 / 1',
-      statusTimes: { boarding: '14:40', end: '15:00', depart: '15:10' },
-      website: 'https://utair.ru'
-    },
-    {
-      time: '15:35',
-      city: 'Москва / ШРМ',
-      flight: 'SU-1209',
-      airline: 'Аэрофлот',
-      gate: '1 / 1',
-      statusTimes: { boarding: '15:05', end: '15:25', depart: '15:35' },
-      website: 'https://aeroflot.ru'
-    }
-  ];
+// ===== S A R A T O V   T I M E =====
+function getSaratovDate() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utc + 4 * 60 * 60000); // UTC+4 Саратов
+}
 
-  function saratovNow() {
-    return new Date(new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Saratov' }));
-  }
+// ===== T I M E   I N   H E A D E R =====
+let lastUpdate = Date.now();
+function updateBoardTime() {
+  const now = getSaratovDate();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('boardTime').textContent = `${hh}:${mm} (UTC+4)`;
+  const mins = Math.floor((Date.now() - lastUpdate) / 60000);
+  document.getElementById('boardUpdated').textContent = `⟳ ${mins} минут назад`;
+}
+setInterval(updateBoardTime, 60000);
+updateBoardTime();
 
-  function getStatus(f) {
-    const now = saratovNow();
-    const [bh,bm] = f.statusTimes.boarding.split(':');
-    const [eh,em] = f.statusTimes.end.split(':');
-    const [dh,dm] = f.statusTimes.depart.split(':');
-
-    const b = new Date(now); b.setHours(bh,bm);
-    const e = new Date(now); e.setHours(eh,em);
-    const d = new Date(now); d.setHours(dh,dm);
-
-    if (now < b) return 'Регистрация';
-    if (now < e) return `Посадка до ${f.statusTimes.end}`;
-    if (now < d) return 'Посадка окончена';
-    return 'Вылетел';
-  }
-
-  function renderFlights() {
-    const wrap = document.getElementById('flights');
-    wrap.innerHTML = '';
-    flightsData.forEach(f => {
-      const status = getStatus(f);
-      if (status === 'Вылетел') return;
-      const div = document.createElement('div');
-      div.className = 'flight';
-      div.innerHTML = `
-        <div>${f.time}</div>
-        <div>${f.city}</div>
-        <div>${f.flight}</div>
-        <div>${f.airline}</div>
-        <div>${f.gate}</div>
-        <div class="status">${status}</div>
-      `;
-      div.onclick = () => openModal(f, status);
-      wrap.appendChild(div);
-    });
-  }
-
-  function openModal(f, status) {
-    document.getElementById('modalBody').innerHTML = `
-      <div class="modal-row"><b>Рейс:</b> ${f.flight}</div>
-      <div class="modal-row"><b>Направление:</b> ${f.city}</div>
-      <div class="modal-row"><b>Авиакомпания:</b> ${f.airline}</div>
-      <div class="modal-row"><b>Сайт:</b> <a href="${f.website}" target="_blank">${f.website}</a></div>
-      <div class="modal-row"><b>Статус:</b> ${status}</div>
-    `;
-    document.getElementById('modal').style.display = 'flex';
-  }
-
-  function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-  }
-
-  function updateTime() {
-    const now = saratovNow();
-    document.getElementById('boardTime').textContent =
-      now.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}) + ' (UTC+4)';
-    document.getElementById('topDate').textContent =
-      now.toLocaleDateString('ru-RU',{day:'numeric',month:'long'}) + ', ' +
-      now.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
-  }
-
-  async function loadWeather() {
+// ===== W E A T H E R =====
+async function loadWeather() {
+  try {
     const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5336&longitude=46.0343&current_weather=true');
     const data = await res.json();
     document.getElementById('weatherTemp').textContent = `+${Math.round(data.current_weather.temperature)}°`;
+  } catch {
+    document.getElementById('weatherTemp').textContent = '—';
   }
+}
+loadWeather();
 
-  renderFlights();
-  updateTime();
-  loadWeather();
-  setInterval(() => { updateTime(); renderFlights(); }, 60000);
+// ===== F L I G H T S =====
+const flights = [
+  {
+    time: '14:50', city: 'Тель-Авив', flight: 'A4-3025', airline: 'АЗИМУТ', website: 'https://azimuth.aero', gate: '8 / 2', boarding: '14:20', depart: '14:50'
+  },
+  {
+    time: '15:10', city: 'Москва / ВНК', flight: 'UT-576', airline: 'ЮТэйр', website: 'https://utair.ru', gate: '5, 6 / 1', boarding: '14:40', depart: '15:10'
+  },
+  {
+    time: '15:35', city: 'Москва / ШРМ', flight: 'SU-1209', airline: 'Аэрофлот', website: 'https://aeroflot.ru', gate: '1, 2 / 1', boarding: '15:05', depart: '15:35'
+  }
+];
+
+const flightsEl = document.getElementById('flights');
+
+function parseTime(t) {
+  const [h, m] = t.split(':').map(Number);
+  const d = getSaratovDate();
+  d.setHours(h, m, 0, 0);
+  return d;
+}
+
+function getStatus(f) {
+  const now = getSaratovDate();
+  const boarding = parseTime(f.boarding);
+  const depart = parseTime(f.depart);
+  if (now < boarding) return 'Регистрация';
+  if (now >= boarding && now < depart) return 'Посадка';
+  return 'Вылетел';
+}
+
+function renderFlights() {
+  flightsEl.innerHTML = '';
+  flights.forEach(f => {
+    const status = getStatus(f);
+    if (status === 'Вылетел') return;
+    const row = document.createElement('div');
+    row.className = 'flight-row';
+    row.innerHTML = `
+      <div>${f.time}</div>
+      <div>${f.city}</div>
+      <div>${f.flight}</div>
+      <div>${f.airline}</div>
+      <div>${f.gate}</div>
+      <div class="status">${status}</div>
+    `;
+    row.onclick = () => openModal(f, status);
+    flightsEl.appendChild(row);
+  });
+}
+
+renderFlights();
+setInterval(renderFlights, 60000);
 </script>
 </body>
 </html>
