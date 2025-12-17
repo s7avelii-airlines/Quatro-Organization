@@ -3,211 +3,308 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Аэропорт Гагарин Игрушечный</title>
+  <title>Онлайн-табло — Аэропорт</title>
+
+  <!-- Шрифт как на скрине -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background-color: #f4f6f8;
-      color: #1f2937;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
     }
-    header {
-      background: linear-gradient(90deg, #0f4c75, #3282b8);
-      color: white;
-      padding: 20px 40px;
-    }
-    nav a { color: white; margin-right: 20px; text-decoration: none; font-weight: 600; }
 
-    .container { padding: 40px; max-width: 1200px; margin: auto; }
-
-    /* Онлайн-табло */
-    .board {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-      overflow: hidden;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 80px 1.5fr 1fr 1.5fr 140px;
+    /* ===== Верхняя панель ===== */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      padding: 18px 24px;
-      border-bottom: 1px solid #eef2f7;
+      padding: 10px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
     }
-    .row:last-child { border-bottom: none; }
 
-    .time { font-weight: 600; font-size: 18px; }
-    .city { font-size: 20px; font-weight: 600; }
-    .flight { color: #6b7280; font-weight: 500; }
+    .top-left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      color: #334155;
+    }
+
+    .top-center {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: #334155;
+    }
+
+    .weather {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .top-right {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    /* ===== Шапка ===== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 32px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 42px;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+    }
+
+    nav span {
+      cursor: pointer;
+    }
+
+    /* ===== Контент ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    .breadcrumbs {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 56px;
+      margin: 0 0 40px;
+      font-weight: 800;
+    }
+
+    /* ===== Переключатель ===== */
+    .tabs {
+      display: flex;
+      gap: 32px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+
+    .tab {
+      color: #d1d5db;
+      position: relative;
+    }
+
+    .tab.active {
+      color: #0f172a;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 3px;
+      background: #22c55e;
+      border-radius: 2px;
+    }
+
+    .time-now {
+      text-align: right;
+      color: #475569;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* ===== Фильтры ===== */
+    .filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .filters input, .filters button {
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: 16px;
+    }
+
+    .filters input {
+      flex: 1;
+    }
+
+    .filters button {
+      background: #22c55e;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ===== Табло ===== */
+    .board {
+      background: #ecfdf3;
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .board-header, .row {
+      display: grid;
+      grid-template-columns: 120px 1.5fr 1fr 1.5fr 1fr 1fr;
+      align-items: center;
+      padding: 14px 16px;
+    }
+
+    .board-header {
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .row {
+      background: white;
+      border-radius: 14px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
 
     .airline {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 600;
+      gap: 10px;
     }
+
     .airline img {
-      width: 44px;
-      height: auto;
+      height: 32px;
     }
 
     .status {
-      text-align: center;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: 600;
-      background: #f1f5f9;
+      font-weight: 700;
+      color: #22c55e;
     }
-    .status.landing { background: #fff7ed; color: #c2410c; }
-    .status.done { background: #ecfeff; color: #0369a1; }
 
-    @media (max-width: 768px) {
-      .row {
-        grid-template-columns: 70px 1fr;
-        grid-row-gap: 10px;
-      }
-      .flight, .airline, .status { grid-column: 1 / -1; }
+    @media (max-width: 900px) {
+      h1 { font-size: 40px; }
+      .board-header { display: none; }
+      .row { grid-template-columns: 1fr; gap: 6px; }
     }
   </style>
 </head>
 <body>
 
+<!-- ===== Верх ===== -->
+<div class="topbar">
+  <div class="top-left">СОЧИ&nbsp;&nbsp;|&nbsp;&nbsp;АНАПА</div>
+  <div class="top-center">
+    <span id="date"></span>
+    <div class="weather" id="weather">☀ +6°</div>
+  </div>
+  <div class="top-right">8 800 301 19 91&nbsp;&nbsp;EN</div>
+</div>
+
 <header>
-  <h1>Аэропорт SkyPort</h1>
+  <div class="logo">
+    <img src="logo.png" alt="Логотип">
+  </div>
   <nav>
-    <a href="#flights">Рейсы</a>
-    <a href="#services">Услуги</a>
-    <a href="#about">Об аэропорте</a>
-    <a href="#contacts">Контакты</a>
+    <span>Рейсы</span>
+    <span>Транспорт</span>
+    <span>VIP и бизнес-залы</span>
+    <span>Услуги</span>
+    <span>Магазины и кафе</span>
+    <span>Полезная информация</span>
   </nav>
 </header>
 
-<div class="hero">
-  <h2>Добро пожаловать в SkyPort</h2>
-  <p>Современный международный аэропорт</p>
-</div>
-
 <div class="container">
+  <div class="breadcrumbs">Главная / Рейсы / Онлайн-табло</div>
+  <h1>Онлайн-табло</h1>
 
-  <section id="flights">
-  <h3>Онлайн-табло рейсов</h3>
+  <div class="tabs">
+    <div class="tab active">Вылет</div>
+    <div class="tab">Прилёт</div>
+  </div>
+
+  <div class="time-now" id="time"></div>
+
+  <div class="filters">
+    <input placeholder="Сегодня">
+    <input placeholder="Любое время">
+    <input placeholder="Поиск по номеру рейса, городу и авиакомпании">
+    <button>Искать</button>
+  </div>
 
   <div class="board">
-    <div class="row" data-landing="15:15" data-end="15:30">
-      <div class="time">15:25</div>
-      <div class="city">Новосибирск</div>
-      <div class="flight">S7-5117</div>
-      <div class="airline">
-        <img src="s7.png" alt="S7" />
-        <span>Сибирь</span>
-      </div>
-      <div class="status">Посадка</div>
+    <div class="board-header">
+      <div>Вылет</div>
+      <div>Направление</div>
+      <div>Рейс</div>
+      <div>Авиакомпания</div>
+      <div>Выход / Терминал</div>
+      <div>Статус</div>
     </div>
 
-    <div class="row" data-landing="15:35" data-end="15:50">
-      <div class="time">15:35</div>
-      <div class="city">Санкт-Петербург</div>
-      <div class="flight">5N-585</div>
-      <div class="airline">
-        <img src="smartavia.png" alt="Smartavia" />
-        <span>СМАРТАВИА</span>
-      </div>
-      <div class="status">В пути</div>
-    </div>
-
-    <div class="row" data-landing="15:50" data-end="16:05">
-      <div class="time">15:50</div>
-      <div class="city">Москва / ШРМ</div>
-      <div class="flight">SU-1156</div>
-      <div class="airline">
-        <img src="aeroflot.png" alt="Аэрофлот" />
-        <span>Аэрофлот</span>
-      </div>
+    <div class="row">
+      <div>15:25</div>
+      <div>Новосибирск</div>
+      <div>S7-5117</div>
+      <div class="airline"><img src="s7.png">Сибирь</div>
+      <div>A • 2</div>
       <div class="status">В пути</div>
     </div>
   </div>
-</section>
-
-<script>
-  function getSaratovTime() {
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utc + 4 * 60 * 60000); // UTC+4 Саратов
-  }
-
-  function updateStatuses() {
-    const now = getSaratovTime();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-    document.querySelectorAll('.row').forEach(row => {
-      const landing = row.dataset.landing.split(':');
-      const end = row.dataset.end.split(':');
-
-      const landingMin = +landing[0] * 60 + +landing[1];
-      const endMin = +end[0] * 60 + +end[1];
-
-      const statusEl = row.querySelector('.status');
-
-      if (currentMinutes >= landingMin && currentMinutes < endMin) {
-        statusEl.textContent = 'Посадка';
-        statusEl.className = 'status landing';
-      } else if (currentMinutes >= endMin) {
-        statusEl.textContent = 'Посадка завершена';
-        statusEl.className = 'status done';
-      } else {
-        statusEl.textContent = 'В пути';
-        statusEl.className = 'status';
-      }
-    });
-  }
-
-  updateStatuses();
-  setInterval(updateStatuses, 30000);
-</script>
-
-  <section id="services">
-    <h3>Услуги</h3>
-    <div class="services">
-      <div class="service-card">
-        <h4>Регистрация онлайн</h4>
-        <p>Быстрая регистрация на рейс через интернет.</p>
-      </div>
-      <div class="service-card">
-        <h4>Парковка</h4>
-        <p>Краткосрочная и долгосрочная парковка.</p>
-      </div>
-      <div class="service-card">
-        <h4>VIP-зал</h4>
-        <p>Комфорт и сервис повышенного уровня.</p>
-      </div>
-      <div class="service-card">
-        <h4>Кафе и магазины</h4>
-        <p>Duty Free, рестораны и зоны отдыха.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="about">
-    <h3>Об аэропорте</h3>
-    <p>
-      SkyPort — современный аэропорт, обслуживающий внутренние и международные рейсы.
-      Мы стремимся обеспечить комфорт, безопасность и высокое качество обслуживания
-      для каждого пассажира.
-    </p>
-  </section>
-
-  <section id="contacts">
-    <h3>Контакты</h3>
-    <p>📍 Адрес: г. Савелий, Саратовская область</p>
-    <p>☎ Телефон: +7 (962) 629-81-05</p>
-    <p>✉ Email: info@skyport.aero</p>
-  </section>
-
 </div>
 
-<footer>
-  <p>© 2025 Аэропорт Гагарин Игрушечный. Все права защищены.</p>
-</footer>
+<script>
+  function saratovNow() {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 4 * 60 * 60000);
+  }
+
+  function updateTime() {
+    const now = saratovNow();
+    document.getElementById('time').textContent =
+      now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' (UTC+4)';
+    document.getElementById('date').textContent =
+      now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ', ' +
+      now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  async function loadWeather() {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5333&longitude=46.0167&current_weather=true');
+    const data = await res.json();
+    document.getElementById('weather').textContent = '☀ ' + Math.round(data.current_weather.temperature) + '°';
+  }
+
+  updateTime();
+  loadWeather();
+  setInterval(updateTime, 30000);
+</script>
 
 </body>
 </html>
