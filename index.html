@@ -258,26 +258,86 @@
     <button>Искать</button>
   </div>
 
-  <div class="board">
-    <div class="board-header">
-      <div>Вылет</div>
-      <div>Направление</div>
-      <div>Рейс</div>
-      <div>Авиакомпания</div>
-      <div>Выход / Терминал</div>
-      <div>Статус</div>
-    </div>
+  <div class="board" id="board"></div>
 
-    <div class="row">
-      <div>15:25</div>
-      <div>Новосибирск</div>
-      <div>S7-5117</div>
-      <div class="airline"><img src="s7.png">Сибирь</div>
-      <div>A • 2</div>
-      <div class="status">В пути</div>
-    </div>
-  </div>
-</div>
+<script>
+  // ===== НАСТРОЙКА РЕЙСОВ (редактируешь ТЫ) =====
+  const flights = [
+    {
+      time: '14:50',
+      oldTime: '13:30',
+      direction: 'Тель-Авив',
+      flight: 'A4-3025',
+      airline: 'АЗИМУТ',
+      logo: 'azimut.png',
+      gate: '8 / 2',
+      statuses: [
+        { from: '13:50', text: 'Регистрация' },
+        { from: '14:20', text: 'Посадка' },
+        { from: '14:50', text: 'Посадка окончена' }
+      ]
+    },
+    {
+      time: '15:10',
+      direction: 'Москва / ВНК',
+      flight: 'UT-576',
+      airline: 'ЮТэйр',
+      logo: 'utair.png',
+      gate: '5, 6 / 1',
+      statuses: [
+        { from: '14:10', text: 'Регистрация' },
+        { from: '14:40', text: 'Посадка' }
+      ]
+    }
+  ];
+
+  function saratovNow() {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 4 * 60 * 60000);
+  }
+
+  function timeToMinutes(t) {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  function getStatus(flight, nowMin) {
+    let current = 'В пути';
+    flight.statuses.forEach(s => {
+      if (nowMin >= timeToMinutes(s.from)) current = s.text;
+    });
+    return current;
+  }
+
+  function renderBoard() {
+    const board = document.getElementById('board');
+    board.innerHTML = `
+      <div class="board-header">
+        <div>Вылет</div><div>Направление</div><div>Рейс</div>
+        <div>Авиакомпания</div><div>Выход</div><div>Статус</div>
+      </div>`;
+
+    const now = saratovNow();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+
+    flights.forEach(f => {
+      const status = getStatus(f, nowMin);
+      board.innerHTML += `
+        <div class="row">
+          <div>${f.time}${f.oldTime ? `<span style="color:#ef4444;margin-left:8px">${f.oldTime}</span>` : ''}</div>
+          <div>${f.direction}</div>
+          <div>${f.flight}</div>
+          <div class="airline"><img src="${f.logo}">${f.airline}</div>
+          <div>${f.gate}</div>
+          <div class="status">${status}</div>
+        </div>`;
+    });
+  }
+
+  renderBoard();
+  setInterval(renderBoard, 30000);
+</script>
 
 <script>
   function saratovNow() {
@@ -308,3 +368,4 @@
 
 </body>
 </html>
+
