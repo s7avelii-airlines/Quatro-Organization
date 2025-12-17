@@ -2,178 +2,253 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Онлайн-табло аэропорта</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Онлайн-табло — Аэропорт</title>
 
-  <!-- Open Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Шрифт как на скрине -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      font-family: 'Open Sans', sans-serif;
-      background: #fff;
-      color: #111827;
+      font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
     }
 
-    /* ===== TOP BAR ===== */
-    .top-bar {
+    /* ===== Верхняя панель ===== */
+    .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 40px;
+      padding: 10px 32px;
       border-bottom: 1px solid #e5e7eb;
       font-size: 14px;
     }
 
-    .top-left span { margin-right: 12px; }
+    .top-left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      color: #334155;
+    }
+
+    .top-center {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: #334155;
+    }
 
     .weather {
       display: flex;
-      align-items: center;
       gap: 6px;
-      color: #16a34a;
+      align-items: center;
+      color: #22c55e;
+      font-weight: 600;
     }
 
-    /* ===== PAGE ===== */
-    .page {
-      padding: 40px;
+    .top-right {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    /* ===== Шапка ===== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 32px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 42px;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+    }
+
+    nav span {
+      cursor: pointer;
+    }
+
+    /* ===== Контент ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    .breadcrumbs {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 40px;
     }
 
     h1 {
-      font-size: 48px;
-      margin: 0 0 30px 0;
+      font-size: 56px;
+      margin: 0 0 40px;
+      font-weight: 800;
     }
 
-    /* ===== TABS ===== */
+    /* ===== Переключатель ===== */
     .tabs {
       display: flex;
-      gap: 30px;
-      font-size: 24px;
-      margin-bottom: 10px;
+      gap: 32px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
     }
 
     .tab {
-      cursor: pointer;
-      color: #9ca3af;
+      color: #d1d5db;
       position: relative;
     }
 
     .tab.active {
-      color: #111827;
-      font-weight: 600;
+      color: #0f172a;
     }
 
     .tab.active::after {
       content: '';
       position: absolute;
-      bottom: -8px;
       left: 0;
+      bottom: -10px;
       width: 100%;
       height: 3px;
       background: #22c55e;
+      border-radius: 2px;
     }
 
-    /* ===== META ===== */
-    .board-meta {
+    .time-now {
+      text-align: right;
+      color: #475569;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* ===== Фильтры ===== */
+    .filters {
       display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
-    .board-time {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .board-updated {
-      font-size: 14px;
-      color: #22c55e;
-    }
-
-    /* ===== TABLE ===== */
-    .table-head {
-      background: #e7f6ec;
+    .filters input, .filters button {
+      padding: 14px 18px;
       border-radius: 999px;
-      padding: 14px 24px;
-      display: grid;
-      grid-template-columns: 120px 2fr 1fr 1.5fr 1fr 1.5fr;
-      font-weight: 600;
-      color: #374151;
+      border: 1px solid #e5e7eb;
+      font-size: 16px;
     }
 
-    .flight {
-      display: grid;
-      grid-template-columns: 120px 2fr 1fr 1.5fr 1fr 1.5fr;
-      padding: 22px 24px;
-      border-bottom: 1px solid #e5e7eb;
-      align-items: center;
+    .filters input {
+      flex: 1;
+    }
+
+    .filters button {
+      background: #22c55e;
+      color: white;
+      border: none;
+      font-weight: 600;
       cursor: pointer;
     }
 
-    .flight:hover { background: #f9fafb; }
+    /* ===== Табло ===== */
+    .board {
+      background: transparent;
+      padding: 0;
+    }
+
+    .board-header, .row {
+      display: grid;
+      grid-template-columns: 120px 1.6fr 1fr 1.6fr 1fr 1fr;
+      align-items: center;
+      padding: 20px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 400;
+      width: 100%;
+    }
+
+    .board-header {
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .row {
+      background: white;
+      border-radius: 14px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .airline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .airline img {
+      height: 32px;
+    }
 
     .status {
-      background: #f3f4f6;
+      padding: 10px 18px;
+      background: #f8fafc;
       border-radius: 999px;
-      padding: 8px 14px;
+      font-weight: 600;
+      color: #334155;
       text-align: center;
-      font-size: 14px;
+      white-space: nowrap;
     }
 
-    /* ===== MODAL ===== */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.4);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .modal-box {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      width: 420px;
-    }
-
-    .modal h2 { margin-top: 0; }
-
-    .modal-row { margin-bottom: 10px; }
-
-    .close {
-      margin-top: 20px;
-      background: #22c55e;
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 999px;
-      cursor: pointer;
+    @media (max-width: 900px) {
+      h1 { font-size: 40px; }
+      .board-header { display: none; }
+      .row { grid-template-columns: 1fr; gap: 6px; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOP -->
-<div class="top-bar">
-  <div class="top-left">
-    <span>СОЧИ</span> | <span>АНАПА</span>
-    <span id="topDate"></span>
+<!-- ===== Верх ===== -->
+<div class="topbar">
+  <div class="top-left">СОЧИ&nbsp;&nbsp;|&nbsp;&nbsp;АНАПА</div>
+  <div class="top-center">
+    <span id="date"></span>
+    <div class="weather" id="weather">☀ +6°</div>
   </div>
-  <div class="weather">
-    ☀ <span id="weatherTemp">—</span>
-  </div>
+  <div class="top-right">8 800 301 19 91&nbsp;&nbsp;EN</div>
 </div>
 
-<!-- PAGE -->
-<div class="page">
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Логотип">
+  </div>
+  <nav>
+    <span>Рейсы</span>
+    <span>Транспорт</span>
+    <span>VIP и бизнес-залы</span>
+    <span>Услуги</span>
+    <span>Магазины и кафе</span>
+    <span>Полезная информация</span>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="breadcrumbs">Главная / Рейсы / Онлайн-табло</div>
   <h1>Онлайн-табло</h1>
 
   <div class="tabs">
@@ -181,118 +256,160 @@
     <div class="tab">Прилёт</div>
   </div>
 
-  <div class="board-meta">
-    <div class="board-time" id="boardTime"></div>
-    <div class="board-updated" id="boardUpdated">⟳ 0 минут назад</div>
+  <div class="time-now" id="time"></div>
+
+  <div class="filters">
+    <input placeholder="Сегодня">
+    <input placeholder="Любое время">
+    <input placeholder="Поиск по номеру рейса, городу и авиакомпании">
+    <button>Искать</button>
   </div>
 
-  <div class="table-head">
-    <div>Вылет</div>
-    <div>Направление</div>
-    <div>Рейс</div>
-    <div>Авиакомпания</div>
-    <div>Выход</div>
-    <div>Статус</div>
+  <div style="margin-bottom:16px">
+    <button id="toggleArchive" style="background:none;border:none;color:#22c55e;font-weight:600;cursor:pointer">Показать вылетевшие ▾</button>
   </div>
-
-  <div id="flights"></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h2>Информация о рейсе</h2>
-    <div id="modalBody"></div>
-    <button class="close" onclick="closeModal()">Закрыть</button>
-  </div>
-</div>
+  <div class="board" id="board"></div>
 
 <script>
-// ===== S A R A T O V   T I M E =====
-function getSaratovDate() {
-  const now = new Date();
-  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-  return new Date(utc + 4 * 60 * 60000); // UTC+4 Саратов
-}
+  // ===== НАСТРОЙКА РЕЙСОВ (редактируешь ТЫ) =====
+  const flights = [
+    {
+      time: '21:10',
+      oldTime: '20:30',
+      direction: 'Тель-Авив',
+      flight: 'A4-3025',
+      airline: 'АЗИМУТ',
+      logo: 'azimut.png',
+      gate: '8 / 2',
+      statuses: [
+        { from: '13:50', text: 'Регистрация' },
+        { from: '14:20', text: 'Посадка' },
+        { from: '21:10', text: 'Посадка окончена' }
+      ]
+    },
+    {
+      time: '21:20',
+      direction: 'Москва / ВНК',
+      flight: 'UT-576',
+      airline: 'ЮТэйр',
+      logo: 'utair.png',
+      gate: '5, 6 / 1',
+      statuses: [
+        { from: '14:10', text: 'Регистрация' },
+        { from: '21:20', text: 'Посадка окончена' }
+      ]
+    },
+    {
+      time: '21:35',
+      direction: 'Москва / ШРМ',
+      flight: 'SU-1209',
+      airline: 'Аэрофлот',
+      logo: 'aeroflot.png',
+      gate: '1, 2 / 1',
+      statuses: [
+        { from: '14:30', text: 'Регистрация' },
+        { from: '21:10', text: 'Регистрация / посадка' }
+      ]
+    }
+  ];
 
-// ===== T I M E   I N   H E A D E R =====
-let lastUpdate = Date.now();
-function updateBoardTime() {
-  const now = getSaratovDate();
-  const hh = String(now.getHours()).padStart(2, '0');
-  const mm = String(now.getMinutes()).padStart(2, '0');
-  document.getElementById('boardTime').textContent = `${hh}:${mm} (UTC+4)`;
-  const mins = Math.floor((Date.now() - lastUpdate) / 60000);
-  document.getElementById('boardUpdated').textContent = `⟳ ${mins} минут назад`;
-}
-setInterval(updateBoardTime, 60000);
-updateBoardTime();
-
-// ===== W E A T H E R =====
-async function loadWeather() {
-  try {
-    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5336&longitude=46.0343&current_weather=true');
-    const data = await res.json();
-    document.getElementById('weatherTemp').textContent = `+${Math.round(data.current_weather.temperature)}°`;
-  } catch {
-    document.getElementById('weatherTemp').textContent = '—';
+  function saratovNow() {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 4 * 60 * 60000);
   }
-}
-loadWeather();
 
-// ===== F L I G H T S =====
-const flights = [
-  {
-    time: '14:50', city: 'Тель-Авив', flight: 'A4-3025', airline: 'АЗИМУТ', website: 'https://azimuth.aero', gate: '8 / 2', boarding: '14:20', depart: '14:50'
-  },
-  {
-    time: '15:10', city: 'Москва / ВНК', flight: 'UT-576', airline: 'ЮТэйр', website: 'https://utair.ru', gate: '5, 6 / 1', boarding: '14:40', depart: '15:10'
-  },
-  {
-    time: '15:35', city: 'Москва / ШРМ', flight: 'SU-1209', airline: 'Аэрофлот', website: 'https://aeroflot.ru', gate: '1, 2 / 1', boarding: '15:05', depart: '15:35'
+  function timeToMinutes(t) {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
   }
-];
 
-const flightsEl = document.getElementById('flights');
-
-function parseTime(t) {
-  const [h, m] = t.split(':').map(Number);
-  const d = getSaratovDate();
-  d.setHours(h, m, 0, 0);
-  return d;
-}
-
-function getStatus(f) {
-  const now = getSaratovDate();
-  const boarding = parseTime(f.boarding);
-  const depart = parseTime(f.depart);
-  if (now < boarding) return 'Регистрация';
-  if (now >= boarding && now < depart) return 'Посадка';
-  return 'Вылетел';
-}
-
-function renderFlights() {
-  flightsEl.innerHTML = '';
-  flights.forEach(f => {
-    const status = getStatus(f);
-    if (status === 'Вылетел') return;
-    const row = document.createElement('div');
-    row.className = 'flight-row';
-    row.innerHTML = `
-      <div>${f.time}</div>
-      <div>${f.city}</div>
-      <div>${f.flight}</div>
-      <div>${f.airline}</div>
-      <div>${f.gate}</div>
-      <div class="status">${status}</div>
-    `;
-    row.onclick = () => openModal(f, status);
-    flightsEl.appendChild(row);
+  function getStatus(flight, nowMin) {
+    let current = null;
+    flight.statuses.forEach(s => {
+      if (nowMin >= timeToMinutes(s.from)) current = s.text;
+    });
+    return current || 'Ожидание';
   });
-}
+    return current;
+  }
 
-renderFlights();
-setInterval(renderFlights, 60000);
+  function renderBoard() {
+    const board = document.getElementById('board');
+    board.innerHTML = `
+      <div class="board-header">
+        <div>Вылет</div><div>Направление</div><div>Рейс</div>
+        <div>Авиакомпания</div><div>Выход</div><div>Статус</div>
+      </div>`;
+
+    const now = saratovNow();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+
+    flights.forEach(f => {
+      const status = getStatus(f, nowMin);
+      const isDeparted = status === 'Вылетел' || status === 'Посадка окончена';
+
+      if (isDeparted && !showArchive) return;
+
+      board.innerHTML += `
+        <div class="row ${isDeparted ? 'archived' : ''}">
+          <div>${f.time}${f.oldTime ? `<span style="color:#94a3b8;text-decoration:line-through;margin-left:8px">${f.oldTime}</span>` : ''}</div>
+          <div>${f.direction}</div>
+          <div>${f.flight}</div>
+          <div class="airline"><img src="${f.logo}">${f.airline}</div>
+          <div>${f.gate}</div>
+          <div class="status">${status ?? ''}</div>
+        </div>`;
+    });
+  }${f.oldTime ? `<span style="color:#ef4444;margin-left:8px">${f.oldTime}</span>` : ''}</div>
+          <div>${f.direction}</div>
+          <div>${f.flight}</div>
+          <div class="airline"><img src="${f.logo}">${f.airline}</div>
+          <div>${f.gate}</div>
+          <div class="status">${status}</div>
+        </div>`;
+    });
+  }
+
+  let showArchive = false;
+  document.getElementById('toggleArchive').onclick = () => {
+    showArchive = !showArchive;
+    document.getElementById('toggleArchive').textContent = showArchive
+      ? 'Скрыть вылетевшие ▴'
+      : 'Показать вылетевшие ▾';
+    renderBoard();
+  };
+
+  renderBoard();
+  setInterval(renderBoard, 30000);
 </script>
+
+<script>
+  function saratovNow() {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 4 * 60 * 60000);
+  }
+
+  function updateTime() {
+    const now = saratovNow();
+    document.getElementById('time').textContent =
+      now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' (UTC+4)';
+    document.getElementById('date').textContent =
+      now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ', ' +
+      now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  async function loadWeather() {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5333&longitude=46.0167&current_weather=true');
+    const data = await res.json();
+    document.getElementById('weather').textContent = '☀ ' + Math.round(data.current_weather.temperature) + '°';
+  }
+
+  updateTime();
+  loadWeather();
+  setInterval(updateTime, 30000);
+</script>
+
 </body>
 </html>
