@@ -110,6 +110,14 @@
 </head>
 <body>
 
+<div class="topbar" style="display:flex;justify-content:space-between;align-items:center;padding:10px 32px;border-bottom:1px solid #e5e7eb;font-size:14px;">
+  <div>СОЧИ&nbsp;|&nbsp;АНАПА</div>
+  <div><span id="date"></span> <span id="weather" style="color:#22c55e;font-weight:600">⛅</span></div>
+  <div style="font-weight:600">8 800 301 19 91</div>
+</div>
+
+<div style="max-width:1200px;margin:0 auto;padding:20px 28px;text-align:right;color:#475569;font-weight:600" id="time"></div>
+
 <div class="board-wrap">
 
   <div class="board-header">
@@ -132,7 +140,7 @@
   const flights = [
     {
       time: '14:50', oldTime: '13:30', delayed: true,
-      direction: 'Сочи', flight: 'A4-3025', airline: 'АЗИМУТ', logo: 'azimut.png', gate: '8 / 2',
+      direction: 'Тель-Авив', flight: 'A4-3025', airline: 'АЗИМУТ', logo: 'azimut.png', gate: '8 / 2',
       statuses: [{ from: '14:50', text: 'Посадка окончена' }]
     },
     {
@@ -148,7 +156,7 @@
       statuses: [{ from: '15:00', text: 'Регистрация' }]
     },
     {
-      time: '16:10', direction: 'Краснодар', flight: 'S7-2072', airline: 'Савелий', logo: 'images/1765982086693.avif', gate: '3, 4 / 1',
+      time: '16:10', direction: 'Москва / ДМД', flight: 'S7-2072', airline: 'Сибирь', logo: 's7.png', gate: '3, 4 / 1',
       statuses: [{ from: '15:30', text: 'Регистрация' }]
     }
   ];
@@ -205,8 +213,29 @@
 
   render();
   setInterval(render, 30000);
+
+function updateTime() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('time').textContent = `Текущее время: ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  document.getElementById('date').textContent = d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+}
+
+async function updateWeather() {
+  try {
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.45&longitude=39.96&current_weather=true');
+    const j = await r.json();
+    document.getElementById('weather').textContent = `${Math.round(j.current_weather.temperature)}°C`;
+  } catch(e) {
+    document.getElementById('weather').textContent = '—';
+  }
+}
+
+updateTime();
+updateWeather();
+setInterval(updateTime, 60000);
+setInterval(updateWeather, 600000);
 </script>
 
 </body>
 </html>
-
