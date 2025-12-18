@@ -478,9 +478,9 @@ const arrivals = [
     gate: '2',
     statuses: [
       { from: '06:21', text: 'Совершил посадку' },
+      { from: '06:24', text: 'Прибыл' },
       { from: '06:30', text: 'Выдача багажа' },
       { from: '06:30', text: 'Выдача завершена' },
-      { from: '06:24', text: 'Прибыл' },
     ]
   },
   {
@@ -492,9 +492,9 @@ const arrivals = [
     gate: '2',
     statuses: [
       { from: '07:39', text: 'Совершил посадку' },
+      { from: '07:44', text: 'Прибыл' },
       { from: '07:56', text: 'Выдача багажа' },
       { from: '08:10', text: 'Выдача завершена' },
-      { from: '07:44', text: 'Прибыл' },
     ]
   },
   {
@@ -506,9 +506,9 @@ const arrivals = [
     gate: '3',
     statuses: [
       { from: '10:36', text: 'Совершил посадку' },
+      { from: '10:40', text: 'Прибыл' },
       { from: '10:45', text: 'Выдача багажа' },
       { from: '11:00', text: 'Выдача завершена' },
-      { from: '10:40', text: 'Прибыл' },
     ]
   },
   {
@@ -520,9 +520,9 @@ const arrivals = [
     gate: '3',
     statuses: [
       { from: '11:51', text: 'Совершил посадку' },
+      { from: '11:55', text: 'Прибыл' },
       { from: '12:09', text: 'Выдача багажа' },
       { from: '12:25', text: 'Выдача завершена' },
-      { from: '11:55', text: 'Прибыл' },
     ]
   },
   {
@@ -534,9 +534,9 @@ const arrivals = [
     gate: '1',
     statuses: [
       { from: '13:21', text: 'Совершил посадку' },
+      { from: '13:24', text: 'Прибыл' },
       { from: '13:30', text: 'Выдача багажа' },
       { from: '13:30', text: 'Выдача завершена' },
-      { from: '13:24', text: 'Прибыл' },
     ]
   },
   {
@@ -548,9 +548,9 @@ const arrivals = [
     gate: '1',
     statuses: [
       { from: '16:21', text: 'Совершил посадку' },
+      { from: '16:27', text: 'Прибыл' },
       { from: '16:30', text: 'Выдача багажа' },
       { from: '16:30', text: 'Выдача завершена' },
-      { from: '16:27', text: 'Прибыл' },
     ]
   },
   {
@@ -562,9 +562,9 @@ const arrivals = [
     gate: '3',
     statuses: [
       { from: '18:41', text: 'Совершил посадку' },
-      { from: '18:53', text: 'Выдача багажа' },
-      { from: '19:07', text: 'Выдача завершена' },
       { from: '18:46', text: 'Прибыл' },
+      { from: '18:53', text: 'Выдача багажа' },
+      { from: '19:12', text: 'Выдача завершена' },
     ]
   },
   {
@@ -576,9 +576,9 @@ const arrivals = [
     gate: '3',
     statuses: [
       { from: '20:21', text: 'Совершил посадку' },
+      { from: '20:24', text: 'Прибыл' },
       { from: '20:30', text: 'Выдача багажа' },
       { from: '20:39', text: 'Выдача завершена' },
-      { from: '20:24', text: 'Прибыл' },
     ]
   },
   {
@@ -590,9 +590,9 @@ const arrivals = [
     gate: '2',
     statuses: [
       { from: '22:31', text: 'Совершил посадку' },
+      { from: '22:37', text: 'Прибыл' },
       { from: '22:34', text: 'Выдача багажа' },
       { from: '23:05', text: 'Выдача завершена' },
-      { from: '22:37', text: 'Прибыл' },
     ]
   }, 
 ];
@@ -634,7 +634,7 @@ function renderBoard() {
     const status = getStatus(f, nowMin);
     const isArchived =
       (boardType === 'departure' && status === 'Вылетел') ||
-      (boardType === 'arrival' && status === 'Прибыл');
+      (boardType === 'arrival' && status === 'Выдача завершена');
 
     if (isArchived && !showArchive) return;
 
