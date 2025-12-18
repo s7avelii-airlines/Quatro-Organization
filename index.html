@@ -201,7 +201,7 @@
     }
 
     .airline img {
-  height: 44px;          /* было 32 */
+  height: 50px;          /* было 32 */
   width: auto;
   object-fit: contain;
 }
@@ -289,9 +289,13 @@ nav a:hover {
     <button id="toggleArchive" style="background:none;border:none;color:#22c55e;font-weight:600;cursor:pointer">Показать вылетевшие ▾</button>
   </div>
   <div class="board" id="board"></div>
-  
-  <script>
-/* ===== ВРЕМЯ САРАТОВ ===== */
+
+
+
+
+
+<script>
+/* ===== ВРЕМЯ ===== */
 function saratovNow() {
   const now = new Date();
   const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -303,13 +307,13 @@ function timeToMinutes(t) {
   return h * 60 + m;
 }
 
-/* ===== ТИП ТАБЛО ===== */
+/* ===== СОСТОЯНИЕ ===== */
 let boardType = 'departure';
 let showArchive = false;
 
-/* ===== ВЫЛЕТЫ ===== */
+/* ===== ДАННЫЕ ===== */
 const flights = [
-   {
+  {
     time: '07:15',
     direction: 'Пенза',
     flight: 'FV-6499',
@@ -461,44 +465,143 @@ const flights = [
       { from: '21:19', text: 'Посадка окончена' },
       { from: '21:39', text: 'Вылетел' }
     ]
-  }, 
+  }
 ];
 
-/* ===== ПРИЛЁТЫ ===== */
 const arrivals = [
   {
-    time: '09:10',
-    direction: 'Москва / ШРМ',
-    flight: 'FV-6500',
+    time: '06:15',
+    direction: 'Пенза',
+    flight: 'FV-6499',
     airline: 'Россия',
     logo: 'images/1766062981943.avif',
-    gate: '1',
+    gate: '2',
     statuses: [
-      { from: '08:50', text: 'В пути' },
-      { from: '09:10', text: 'Прибыл' }
+      { from: '06:21', text: 'Совершил посадку' },
+      { from: '06:30', text: 'Выдача багажа' },
+      { from: '06:30', text: 'Выдача завершена' },
+      { from: '06:24', text: 'Прибыл' },
     ]
   },
   {
-    time: '14:40',
-    direction: 'Сочи',
-    flight: 'DP-129',
-    airline: 'Победа',
-    logo: 'images/1766063004710.avif',
+    time: '07:40',
+    direction: 'Москва/ШРМ',
+    flight: 'N4-896',
+    airline: 'Северный Ветер',
+    logo: 'images/1766062898599.avif',
     gate: '2',
     statuses: [
-      { from: '14:10', text: 'В пути' },
-      { from: '14:40', text: 'Прибыл' }
+      { from: '07:39', text: 'Совершил посадку' },
+      { from: '07:56', text: 'Выдача багажа' },
+      { from: '08:10', text: 'Выдача завершена' },
+      { from: '07:44', text: 'Прибыл' },
     ]
-  }
+  },
+  {
+    time: '10:35',
+    direction: 'Сочи',
+    flight: 'DP-128',
+    airline: 'Победа',
+    logo: 'images/1766063004710.avif',
+    gate: '3',
+    statuses: [
+      { from: '10:36', text: 'Совершил посадку' },
+      { from: '10:45', text: 'Выдача багажа' },
+      { from: '11:00', text: 'Выдача завершена' },
+      { from: '10:40', text: 'Прибыл' },
+    ]
+  },
+  {
+    time: '11:50',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2598',
+    airline: 'Савелий',
+    logo: 'images/1766063324434.avif',
+    gate: '3',
+    statuses: [
+      { from: '11:51', text: 'Совершил посадку' },
+      { from: '12:09', text: 'Выдача багажа' },
+      { from: '12:25', text: 'Выдача завершена' },
+      { from: '11:55', text: 'Прибыл' },
+    ]
+  },
+  {
+    time: '13:10',
+    direction: 'Анталия',
+    flight: 'A4-675',
+    airline: 'Азимут',
+    logo: 'images/1766062951929.avif',
+    gate: '1',
+    statuses: [
+      { from: '13:21', text: 'Совершил посадку' },
+      { from: '13:30', text: 'Выдача багажа' },
+      { from: '13:30', text: 'Выдача завершена' },
+      { from: '13:24', text: 'Прибыл' },
+    ]
+  },
+  {
+    time: '16:20',
+    direction: 'Екатеринбург',
+    flight: 'RW-4689',
+    airline: 'Азимут',
+    logo: 'images/1766062951929.avif',
+    gate: '1',
+    statuses: [
+      { from: '16:21', text: 'Совершил посадку' },
+      { from: '16:30', text: 'Выдача багажа' },
+      { from: '16:30', text: 'Выдача завершена' },
+      { from: '16:27', text: 'Прибыл' },
+    ]
+  },
+  {
+    time: '18:45',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2569',
+    airline: 'Савелий',
+    logo: 'images/1766063324434.avif',
+    gate: '3',
+    statuses: [
+      { from: '18:41', text: 'Совершил посадку' },
+      { from: '18:53', text: 'Выдача багажа' },
+      { from: '19:07', text: 'Выдача завершена' },
+      { from: '18:46', text: 'Прибыл' },
+    ]
+  },
+  {
+    time: '20:30',
+    direction: 'Москва/ВНК',
+    flight: 'FV-949',
+    airline: 'Россия',
+    logo: 'images/1766062981943.avif',
+    gate: '3',
+    statuses: [
+      { from: '20:21', text: 'Совершил посадку' },
+      { from: '20:30', text: 'Выдача багажа' },
+      { from: '20:39', text: 'Выдача завершена' },
+      { from: '20:24', text: 'Прибыл' },
+    ]
+  },
+  {
+    time: '22:30',
+    direction: 'Сургут',
+    flight: 'UT-312',
+    airline: 'Ютэйр',
+    logo: 'images/1766062883326.avif',
+    gate: '2',
+    statuses: [
+      { from: '22:31', text: 'Совершил посадку' },
+      { from: '22:34', text: 'Выдача багажа' },
+      { from: '23:05', text: 'Выдача завершена' },
+      { from: '22:37', text: 'Прибыл' },
+    ]
+  }, 
 ];
 
 /* ===== СТАТУС ===== */
 function getStatus(flight, nowMin) {
   let current = 'Ожидание';
   flight.statuses.forEach(s => {
-    if (nowMin >= timeToMinutes(s.from)) {
-      current = s.text;
-    }
+    if (nowMin >= timeToMinutes(s.from)) current = s.text;
   });
   return current;
 }
@@ -506,6 +609,7 @@ function getStatus(flight, nowMin) {
 /* ===== РЕНДЕР ===== */
 function renderBoard() {
   const board = document.getElementById('board');
+  const toggle = document.getElementById('toggleArchive');
   const data = boardType === 'departure' ? flights : arrivals;
 
   board.innerHTML = `
@@ -519,17 +623,23 @@ function renderBoard() {
     </div>
   `;
 
+  toggle.textContent = showArchive
+    ? (boardType === 'departure' ? 'Скрыть вылетевшие ▴' : 'Скрыть прибывшие ▴')
+    : (boardType === 'departure' ? 'Показать вылетевшие ▾' : 'Показать прибывшие ▾');
+
   const now = saratovNow();
   const nowMin = now.getHours() * 60 + now.getMinutes();
 
   data.forEach(f => {
     const status = getStatus(f, nowMin);
-    const isDeparted = status === 'Вылетел';
+    const isArchived =
+      (boardType === 'departure' && status === 'Вылетел') ||
+      (boardType === 'arrival' && status === 'Выдача завершена');
 
-    if (isDeparted && !showArchive) return;
+    if (isArchived && !showArchive) return;
 
     board.innerHTML += `
-      <div class="row">
+      <div class="row ${isArchived ? 'archived' : ''}">
         <div>${f.time}</div>
         <div>${f.direction}</div>
         <div>${f.flight}</div>
@@ -547,6 +657,7 @@ document.querySelectorAll('.tab').forEach(tab => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     boardType = tab.dataset.type;
+    showArchive = false;
     renderBoard();
   });
 });
@@ -557,7 +668,7 @@ document.getElementById('toggleArchive').onclick = () => {
   renderBoard();
 };
 
-/* ===== ВРЕМЯ + ПОГОДА ===== */
+/* ===== ВРЕМЯ ===== */
 function updateTime() {
   const now = saratovNow();
   document.getElementById('time').textContent =
@@ -566,18 +677,9 @@ function updateTime() {
     now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 }
 
-async function loadWeather() {
-  const res = await fetch(
-    'https://api.open-meteo.com/v1/forecast?latitude=51.5333&longitude=46.0167&current_weather=true'
-  );
-  const data = await res.json();
-  document.getElementById('weather').textContent =
-    '☀ ' + Math.round(data.current_weather.temperature) + '°';
-}
-
+/* ===== СТАРТ ===== */
 renderBoard();
 updateTime();
-loadWeather();
 setInterval(renderBoard, 30000);
 setInterval(updateTime, 30000);
 </script>
