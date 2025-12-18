@@ -634,7 +634,7 @@ function renderBoard() {
     const status = getStatus(f, nowMin);
     const isArchived =
       (boardType === 'departure' && status === 'Вылетел') ||
-      (boardType === 'arrival' && status === 'Выдача завершена');
+      (boardType === 'arrival' && status === 'Прибыл');
 
     if (isArchived && !showArchive) return;
 
