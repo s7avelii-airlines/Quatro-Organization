@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Транспорт</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Open Sans', system-ui, sans-serif;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #111827;
+  background: #fff;
+}
+
+.topbar-left {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #374151;
+}
+
+.weather {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.weather svg {
+  width: 18px;
+  height: 18px;
+}
+
+.topbar-right {
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    САРАТОВ
+  </div>
+
+  <div class="topbar-center">
+    <span id="datetime">18 декабря, 18:10</span>
+
+    <div class="weather" id="weather">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M6 19a4 4 0 010-8 5 5 0 019.7-1.3A4.5 4.5 0 1118 19H6z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span id="temp">+3°</span>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    8 800 301-19-91
+  </div>
+</div>
+
+<script>
+/* ===== ВРЕМЯ САРАТОВ ===== */
+function saratovNow() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utc + 4 * 60 * 60000);
+}
+
+function updateTime() {
+  const now = saratovNow();
+  document.getElementById('datetime').textContent =
+    now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) +
+    ', ' +
+    now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
+
+/* ===== ПОГОДА САРАТОВ ===== */
+async function loadWeather() {
+  const res = await fetch(
+    'https://api.open-meteo.com/v1/forecast?latitude=51.5333&longitude=46.0167&current_weather=true'
+  );
+  const data = await res.json();
+  document.getElementById('temp').textContent =
+    (data.current_weather.temperature > 0 ? '+' : '') +
+    Math.round(data.current_weather.temperature) + '°';
+}
+
+updateTime();
+loadWeather();
+setInterval(updateTime, 30000);
+</script>
+
+</body>
+</html>
