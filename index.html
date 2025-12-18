@@ -201,8 +201,10 @@
     }
 
     .airline img {
-      height: 32px;
-    }
+  height: 40px;          /* было 32 */
+  width: auto;
+  object-fit: contain;
+}
 
     .status {
       padding: 10px 18px;
@@ -219,6 +221,24 @@
       .board-header { display: none; }
       .row { grid-template-columns: 1fr; gap: 6px; }
     }
+    nav a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #22c55e;
+}
+    .tab {
+  background: none;
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #d1d5db;
+}
+
   </style>
 </head>
 <body>
@@ -238,12 +258,12 @@
     <img src="logo.png" alt="Логотип">
   </div>
   <nav>
-    <span>Рейсы</span>
-    <span>Транспорт</span>
-    <span>VIP и бизнес-залы</span>
-    <span>Услуги</span>
-    <span>Магазины и кафе</span>
-  </nav>
+  <a href="flights.html">Рейсы</a>
+  <a href="transport.html">Транспорт</a>
+  <a href="vip.html">VIP и бизнес-залы</a>
+  <a href="services.html">Услуги</a>
+  <a href="shops.html">Магазины и кафе</a>
+</nav>
 </header>
 
 <div class="container">
@@ -251,9 +271,10 @@
   <h1>Онлайн-табло</h1>
 
   <div class="tabs">
-    <div class="tab active">Вылет</div>
-    <div class="tab">Прилёт</div>
-  </div>
+  <button class="tab active" data-type="departure">Вылет</button>
+  <button class="tab" data-type="arrival">Прилёт</button>
+</div>
+
 
   <div class="time-now" id="time"></div>
 
@@ -283,7 +304,8 @@ function timeToMinutes(t) {
 }
 
 /* ===== РЕЙСЫ ===== */
-const flights = [
+let boardType = 'departure';
+  [
   {
     time: '07:15',
     direction: 'Пенза',
@@ -438,6 +460,43 @@ const flights = [
     ]
   }, 
 ];
+  const arrivals = [
+  {
+    time: '09:10',
+    direction: 'Москва / ШРМ',
+    flight: 'FV-6500',
+    airline: 'Россия',
+    logo: 'images/1766062981943.avif',
+    gate: '1',
+    statuses: [
+      { from: '08:50', text: 'В пути' },
+      { from: '09:05', text: 'Посадка' },
+      { from: '09:10', text: 'Прибыл' }
+    ]
+  },
+  {
+    time: '14:40',
+    direction: 'Сочи',
+    flight: 'DP-129',
+    airline: 'Победа',
+    logo: 'images/1766063004710.avif',
+    gate: '2',
+    statuses: [
+      { from: '14:10', text: 'В пути' },
+      { from: '14:35', text: 'Посадка' },
+      { from: '14:40', text: 'Прибыл' }
+    ]
+  }
+];
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    boardType = tab.dataset.type;
+    renderBoard();
+  });
+});
 
 /* ===== СТАТУС ===== */
 function getStatus(flight, nowMin) {
@@ -455,21 +514,24 @@ let showArchive = false;
 
 function renderBoard() {
   const board = document.getElementById('board');
+  const data = boardType === 'departure' ? flights : arrivals;
+
+  const board = document.getElementById('board');
   board.innerHTML = `
-    <div class="board-header">
-      <div>Вылет</div>
-      <div>Направление</div>
-      <div>Рейс</div>
-      <div>Авиакомпания</div>
-      <div>Выход</div>
-      <div>Статус</div>
-    </div>
-  `;
+  <div class="board-header">
+    <div>${boardType === 'departure' ? 'Вылет' : 'Прилёт'}</div>
+    <div>Направление</div>
+    <div>Рейс</div>
+    <div>Авиакомпания</div>
+    <div>Выход</div>
+    <div>Статус</div>
+  </div>
+`;
 
   const now = saratovNow();
   const nowMin = now.getHours() * 60 + now.getMinutes();
 
-  flights.forEach(f => {
+  data.forEach(f => {
     const status = getStatus(f, nowMin);
     const isDeparted = status === 'Вылетел';
 
