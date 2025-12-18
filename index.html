@@ -289,8 +289,8 @@ nav a:hover {
     <button id="toggleArchive" style="background:none;border:none;color:#22c55e;font-weight:600;cursor:pointer">Показать вылетевшие ▾</button>
   </div>
   <div class="board" id="board"></div>
-
-<script>
+  
+  <script>
 /* ===== ВРЕМЯ САРАТОВ ===== */
 function saratovNow() {
   const now = new Date();
@@ -303,10 +303,13 @@ function timeToMinutes(t) {
   return h * 60 + m;
 }
 
-/* ===== РЕЙСЫ ===== */
+/* ===== ТИП ТАБЛО ===== */
 let boardType = 'departure';
-  [
-  {
+let showArchive = false;
+
+/* ===== ВЫЛЕТЫ ===== */
+const flights = [
+   {
     time: '07:15',
     direction: 'Пенза',
     flight: 'FV-6499',
@@ -460,7 +463,9 @@ let boardType = 'departure';
     ]
   }, 
 ];
-  const arrivals = [
+
+/* ===== ПРИЛЁТЫ ===== */
+const arrivals = [
   {
     time: '09:10',
     direction: 'Москва / ШРМ',
@@ -470,7 +475,6 @@ let boardType = 'departure';
     gate: '1',
     statuses: [
       { from: '08:50', text: 'В пути' },
-      { from: '09:05', text: 'Посадка' },
       { from: '09:10', text: 'Прибыл' }
     ]
   },
@@ -483,50 +487,37 @@ let boardType = 'departure';
     gate: '2',
     statuses: [
       { from: '14:10', text: 'В пути' },
-      { from: '14:35', text: 'Посадка' },
       { from: '14:40', text: 'Прибыл' }
     ]
   }
 ];
 
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    boardType = tab.dataset.type;
-    renderBoard();
-  });
-});
-
 /* ===== СТАТУС ===== */
 function getStatus(flight, nowMin) {
-  let current = null;
+  let current = 'Ожидание';
   flight.statuses.forEach(s => {
     if (nowMin >= timeToMinutes(s.from)) {
       current = s.text;
     }
   });
-  return current || 'Ожидание';
+  return current;
 }
 
 /* ===== РЕНДЕР ===== */
-let showArchive = false;
-
 function renderBoard() {
   const board = document.getElementById('board');
   const data = boardType === 'departure' ? flights : arrivals;
 
-  const board = document.getElementById('board');
   board.innerHTML = `
-  <div class="board-header">
-    <div>${boardType === 'departure' ? 'Вылет' : 'Прилёт'}</div>
-    <div>Направление</div>
-    <div>Рейс</div>
-    <div>Авиакомпания</div>
-    <div>Выход</div>
-    <div>Статус</div>
-  </div>
-`;
+    <div class="board-header">
+      <div>${boardType === 'departure' ? 'Вылет' : 'Прилёт'}</div>
+      <div>Направление</div>
+      <div>Рейс</div>
+      <div>Авиакомпания</div>
+      <div>Выход</div>
+      <div>Статус</div>
+    </div>
+  `;
 
   const now = saratovNow();
   const nowMin = now.getHours() * 60 + now.getMinutes();
@@ -538,11 +529,8 @@ function renderBoard() {
     if (isDeparted && !showArchive) return;
 
     board.innerHTML += `
-      <div class="row ${isDeparted ? 'archived' : ''}">
-        <div>
-          ${f.time}
-          ${f.oldTime ? `<span style="color:#94a3b8;text-decoration:line-through;margin-left:8px">${f.oldTime}</span>` : ''}
-        </div>
+      <div class="row">
+        <div>${f.time}</div>
         <div>${f.direction}</div>
         <div>${f.flight}</div>
         <div class="airline"><img src="${f.logo}">${f.airline}</div>
@@ -553,16 +541,21 @@ function renderBoard() {
   });
 }
 
+/* ===== ТАБЫ ===== */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    boardType = tab.dataset.type;
+    renderBoard();
+  });
+});
+
 /* ===== АРХИВ ===== */
 document.getElementById('toggleArchive').onclick = () => {
   showArchive = !showArchive;
-  document.getElementById('toggleArchive').textContent =
-    showArchive ? 'Скрыть вылетевшие ▴' : 'Показать вылетевшие ▾';
   renderBoard();
 };
-
-renderBoard();
-setInterval(renderBoard, 30000);
 
 /* ===== ВРЕМЯ + ПОГОДА ===== */
 function updateTime() {
@@ -570,8 +563,7 @@ function updateTime() {
   document.getElementById('time').textContent =
     now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' (UTC+4)';
   document.getElementById('date').textContent =
-    now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ', ' +
-    now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 }
 
 async function loadWeather() {
@@ -583,10 +575,11 @@ async function loadWeather() {
     '☀ ' + Math.round(data.current_weather.temperature) + '°';
 }
 
+renderBoard();
 updateTime();
 loadWeather();
+setInterval(renderBoard, 30000);
 setInterval(updateTime, 30000);
 </script>
-
 </body>
 </html>
