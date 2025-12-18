@@ -286,6 +286,110 @@ function timeToMinutes(t) {
 /* ===== РЕЙСЫ ===== */
 const flights = [
   {
+    time: '09:05',
+    direction: 'Нальчик',
+    flight: 'ВШ 4629',
+    airline: 'ВШ',
+    gate: 'В111',
+    statuses: [
+      { from: '08:05', text: 'Регистрация' },
+      { from: '08:35', text: 'Посадка' },
+      { from: '08:55', text: 'Посадка окончена' },
+      { from: '09:05', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '09:05',
+    direction: 'Ставрополь',
+    flight: 'ШР 2308',
+    airline: 'ШР',
+    gate: 'В131',
+    statuses: [
+      { from: '08:05', text: 'Регистрация' },
+      { from: '08:35', text: 'Посадка' },
+      { from: '08:55', text: 'Посадка окончена' },
+      { from: '09:05', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '09:10',
+    direction: 'Тбилиси',
+    flight: 'SH 3986',
+    airline: 'SH',
+    gate: 'A002',
+    statuses: [
+      { from: '08:10', text: 'Регистрация' },
+      { from: '08:40', text: 'Посадка' },
+      { from: '09:00', text: 'Посадка окончена' },
+      { from: '09:10', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '09:10',
+    direction: 'Стамбул',
+    flight: 'TS 0763',
+    airline: 'TS',
+    gate: 'А030',
+    statuses: [
+      { from: '08:10', text: 'Регистрация' },
+      { from: '08:40', text: 'Посадка' },
+      { from: '09:00', text: 'Посадка окончена' },
+      { from: '09:10', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '09:50',
+    direction: 'Уфа',
+    flight: 'IK 325R',
+    airline: 'IK',
+    gate: 'А079',
+    statuses: [
+      { from: '08:50', text: 'Регистрация' },
+      { from: '09:20', text: 'Посадка' },
+      { from: '09:40', text: 'Посадка окончена' },
+      { from: '09:50', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '09:50',
+    direction: 'Сухум',
+    flight: 'S7 127M',
+    airline: 'S7',
+    gate: 'A067',
+    statuses: [
+      { from: '08:50', text: 'Регистрация' },
+      { from: '09:20', text: 'Посадка' },
+      { from: '09:40', text: 'Посадка окончена' },
+      { from: '09:50', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '10:00',
+    direction: 'Ереван',
+    flight: 'S7 1245',
+    airline: 'S7',
+    gate: 'А070',
+    statuses: [
+      { from: '09:00', text: 'Регистрация' },
+      { from: '09:30', text: 'Посадка' },
+      { from: '09:50', text: 'Посадка окончена' },
+      { from: '10:00', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '10:00',
+    direction: 'Якутск',
+    flight: 'S7 1259',
+    airline: 'S7',
+    gate: 'А038',
+    statuses: [
+      { from: '09:00', text: 'Регистрация' },
+      { from: '09:30', text: 'Посадка' },
+      { from: '09:50', text: 'Посадка окончена' },
+      { from: '10:00', text: 'Вылетел' }
+    ]
+  },
+  {
     time: '21:10',
     oldTime: '20:30',
     direction: 'Тель-Авив',
