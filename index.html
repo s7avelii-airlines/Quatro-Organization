@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Онлайн-табло — Аэропорт</title>
+  <title>Международный аэропорт Ломакино</title>
 
   <!-- Шрифт как на скрине -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
@@ -225,12 +225,12 @@
 
 <!-- ===== Верх ===== -->
 <div class="topbar">
-  <div class="top-left">СОЧИ&nbsp;&nbsp;|&nbsp;&nbsp;АНАПА</div>
+  <div class="top-left">САВЕЛИЙ&nbsp;&nbsp;|&nbsp;&nbsp;САРАТОВ</div>
   <div class="top-center">
     <span id="date"></span>
     <div class="weather" id="weather">☀ +6°</div>
   </div>
-  <div class="top-right">8 800 301 19 91&nbsp;&nbsp;EN</div>
+  <div class="top-right">8 962 629 81 05&nbsp;&nbsp;</div>
 </div>
 
 <header>
@@ -243,12 +243,11 @@
     <span>VIP и бизнес-залы</span>
     <span>Услуги</span>
     <span>Магазины и кафе</span>
-    <span>Полезная информация</span>
   </nav>
 </header>
 
 <div class="container">
-  <div class="breadcrumbs">Главная / Рейсы / Онлайн-табло</div>
+  <div class="breadcrumbs">Главная / Онлайн-табло</div>
   <h1>Онлайн-табло</h1>
 
   <div class="tabs">
@@ -286,874 +285,158 @@ function timeToMinutes(t) {
 /* ===== РЕЙСЫ ===== */
 const flights = [
   {
-    time: '20:05',
-    direction: 'Благовещенск',
-    flight: 'S7 5211',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '00:05', text: 'Регистрация' },
-      { from: '23:15', text: 'Посадка' },
-      { from: '00:22', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '01:00',
-    direction: 'Гоа',
-    flight: 'SU 622',
-    airline: 'Аэрофлот',
-    gate: 'Б',
-    statuses: [
-      { from: '22:30', text: 'Регистрация' },
-      { from: '02:20', text: 'Посадка' },
-      { from: '02:53', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '01:00',
-    direction: 'Эльга',
-    flight: 'Y7 4551',
-    airline: 'NordStar',
-    gate: 'C',
-    statuses: [
-      { from: '22:55', text: 'Регистрация' },
-      { from: '00:15', text: 'Посадка' },
-      { from: '01:09', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:05',
-    direction: 'Кишинёв',
-    flight: 'S7 5225',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '02:05', text: 'Регистрация' },
-      { from: '01:22', text: 'Посадка' },
-      { from: '02:12', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:10',
-    direction: 'Ош',
-    flight: 'YK 770',
-    airline: 'Avia Traffic Company',
-    gate: 'Б',
-    statuses: [
-      { from: '23:36', text: 'Регистрация' },
-      { from: '01:29', text: 'Посадка' },
-      { from: '02:18', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:10',
-    direction: 'Улан-Удэ',
-    flight: 'S7 5255',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '02:10', text: 'Регистрация' },
-      { from: '01:41', text: 'Посадка' },
-      { from: '02:16', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:15',
-    direction: 'Пула',
-    flight: 'S7 5223',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '02:15', text: 'Регистрация' },
-      { from: '01:27', text: 'Посадка' },
-      { from: '02:56', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:20',
-    direction: 'Вена',
-    flight: 'S7 5309',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '02:20', text: 'Регистрация' },
-      { from: '01:50', text: 'Посадка' },
-      { from: '02:23', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:30',
-    direction: 'Мирный',
-    flight: 'ЮТ 4590',
-    airline: 'ЮТэйр',
-    gate: 'C',
-    statuses: [
-      { from: '00:28', text: 'Регистрация' },
-      { from: '01:55', text: 'Посадка' },
-      { from: '02:36', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:30',
-    direction: 'Мирный',
-    flight: 'ЯК 5590',
-    airline: 'Якутия',
-    gate: 'C',
-    statuses: [
-      { from: '00:28', text: 'Регистрация' },
-      { from: '01:55', text: 'Посадка' },
-      { from: '02:36', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:30',
-    direction: 'Мирный',
-    flight: '6R 590',
-    airline: 'Алроса',
-    gate: 'C',
-    statuses: [
-      { from: '00:28', text: 'Регистрация' },
-      { from: '01:55', text: 'Посадка' },
-      { from: '02:36', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '02:30',
-    direction: 'Мирный',
-    flight: '7R 6590',
-    airline: 'РусЛайн',
-    gate: 'C',
-    statuses: [
-      { from: '00:28', text: 'Регистрация' },
-      { from: '01:55', text: 'Посадка' },
-      { from: '02:36', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '05:10',
-    direction: 'Братск',
-    flight: 'S7 5215',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '05:10', text: 'Регистрация' },
-      { from: '04:46', text: 'Посадка' },
-      { from: '05:31', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '05:15',
-    direction: 'Анталия',
-    flight: 'S7 5359',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '05:15', text: 'Регистрация' },
-      { from: '04:35', text: 'Посадка' },
-      { from: '05:29', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '05:45',
-    direction: 'Рим',
-    flight: 'S7 2502',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '05:45', text: 'Регистрация' },
-      { from: '05:09', text: 'Посадка' },
-      { from: '05:55', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '05:50',
-    direction: 'Дубай',
-    flight: 'FZ 964',
-    airline: 'flydubai',
-    gate: 'Б',
-    statuses: [
-      { from: '03:30', text: 'Регистрация' },
-      { from: '06:10', text: 'Посадка' },
-      { from: '07:14', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '06:15',
-    direction: 'Екатеринбург',
-    flight: 'S7 5017',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '06:15', text: 'Регистрация' },
-      { from: '05:37', text: 'Посадка' },
-      { from: '06:15', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '06:20',
-    direction: 'Ярославль',
-    flight: 'S7 5313',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '06:20', text: 'Регистрация' },
-      { from: '05:49', text: 'Посадка' },
-      { from: '06:44', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '06:25',
-    direction: 'Стамбул',
-    flight: 'S7 5387',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '06:25', text: 'Регистрация' },
-      { from: '08:32', text: 'Посадка' },
-      { from: '09:10', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '06:30',
-    direction: 'Бангкок',
-    flight: 'SU 650',
-    airline: 'Аэрофлот',
-    gate: 'Б',
-    statuses: [
-      { from: '03:30', text: 'Регистрация' },
-      { from: '05:45', text: 'Посадка' },
-      { from: '07:07', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '06:30',
-    direction: 'Мирный',
-    flight: '6R 9825',
-    airline: 'Алроса',
-    gate: 'C',
-    statuses: [
-      { from: '05:15', text: 'Регистрация' },
-      { from: '05:59', text: 'Посадка' },
-      { from: '06:56', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '07:05',
-    direction: 'Сухум',
-    flight: 'S7 5327',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '07:05', text: 'Регистрация' },
-      { from: '06:25', text: 'Посадка' },
-      { from: '07:16', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '07:05',
-    direction: 'Уфа',
-    flight: 'S7 5375',
-    airline: 'S7avelii Airlines',
-    gate: 'C',
-    statuses: [
-      { from: '07:05', text: 'Регистрация' },
-      { from: '07:37', text: 'Посадка' },
-      { from: '08:12', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '07:10',
-    direction: 'Москва / Шереметьево',
-    flight: 'DP 6526',
-    airline: 'Победа',
-    gate: 'C',
-    statuses: [
-      { from: '05:09', text: 'Регистрация' },
-      { from: '06:36', text: 'Посадка' },
-      { from: '07:37', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '07:30',
-    direction: 'Санкт-Петербург',
-    flight: 'FV 6542',
+    time: '07:15',
+    direction: 'Пенза',
+    flight: 'FV-6499',
     airline: 'Россия',
-    gate: 'C',
-    statuses: [
-      { from: '05:01', text: 'Регистрация' },
-      { from: '06:51', text: 'Посадка' },
-      { from: '07:43', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '07:30',
-    direction: 'Санкт-Петербург',
-    flight: 'SU 6542',
-    airline: 'Аэрофлот',
-    gate: 'C',
-    statuses: [
-      { from: '05:01', text: 'Регистрация' },
-      { from: '06:51', text: 'Посадка' },
-      { from: '07:43', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '07:55',
-    direction: 'Сочи',
-    flight: 'FV 6642',
-    airline: 'Россия',
-    gate: 'C',
-    statuses: [
-      { from: '05:47', text: 'Регистрация' },
-      { from: '07:14', text: 'Посадка' },
-      { from: '08:05', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '08:25',
-    direction: 'Дубай',
-    flight: 'S7 5785',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: 'Б',
-    statuses: [
-      { from: '08:25', text: 'Регистрация' },
-      { from: '07:58', text: 'Посадка' },
-      { from: '08:45', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '08:30',
-    direction: 'Москва / Жуковский',
-    flight: 'S7 2504',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: 'C',
-    statuses: [
-      { from: '08:30', text: 'Регистрация' },
-      { from: '07:49', text: 'Посадка' },
-      { from: '09:01', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '08:30',
-    direction: 'Талакан',
-    flight: '4G 485',
-    airline: 'Газпром Авиа',
-    gate: 'C',
-    statuses: [
-      { from: '06:42', text: 'Регистрация' },
-      { from: '07:52', text: 'Посадка' },
-      { from: '08:59', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '09:00',
-    direction: 'Махачкала',
-    flight: 'S7 5305',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: 'C',
-    statuses: [
-      { from: '06:00', text: 'Регистрация' },
-      { from: '09:36', text: 'Посадка' },
-      { from: '09:00', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '09:05',
-    direction: 'Самара',
-    flight: 'S7 5229',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: 'C',
-    statuses: [
-      { from: '06:05', text: 'Регистрация' },
-      { from: '08:25', text: 'Посадка' },
-      { from: '09:36', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '10:05',
-    direction: 'Казань',
-    flight: 'S7 5325',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: 'C',
-    statuses: [
-      { from: '08:05', text: 'Регистрация' },
-      { from: '09:29', text: 'Посадка' },
-      { from: '10:13', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '10:15',
-    direction: 'Москва / Шереметьево',
-    flight: 'SU 1307',
-    airline: 'Аэрофлот',
-    gate: '35',
-    statuses: [
-      { from: '08:08', text: 'Регистрация' },
-      { from: '09:36', text: 'Посадка' },
-      { from: '10:23', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '10:35',
-    direction: 'Новый Уренгой',
-    flight: 'S7 2335',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '29',
-    statuses: [
-      { from: '08:35', text: 'Регистрация' },
-      { from: '09:55', text: 'Посадка' },
-      { from: '10:42', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '10:45',
-    direction: 'Краснодар',
-    flight: 'S7 2115',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '18',
-    statuses: [
-      { from: '08:45', text: 'Регистрация' },
-      { from: '09:59', text: 'Посадка' },
-      { from: '11:00', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '10:55',
-    direction: 'Томск',
-    flight: 'S7 2321',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '14',
-    statuses: [
-      { from: '08:55', text: 'Регистрация' },
-      { from: '10:36', text: 'Посадка' },
-      { from: '11:08', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:00',
-    direction: 'Горно-Алтайск',
-    flight: 'S7 5371',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '11',
-    statuses: [
-      { from: '08:00', text: 'Регистрация' },
-      { from: '10:20', text: 'Посадка' },
-      { from: '11:05', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:10',
-    direction: 'Москва / Внуково',
-    flight: 'R3 465',
-    airline: 'Якутия',
-    gate: '10',
-    statuses: [
-      { from: '09:29', text: 'Регистрация' },
-      { from: '10:51', text: 'Посадка' },
-      { from: '11:23', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:15',
-    direction: 'Пхукет',
-    flight: 'ZF 2947',
-    airline: 'Azur Air',
-    gate: '31',
-    statuses: [
-      { from: '08:34', text: 'Регистрация' },
-      { from: '11:00', text: 'Посадка' },
-      { from: '11:56', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:15',
-    direction: 'Сочи',
-    flight: 'S7 2103',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '19',
-    statuses: [
-      { from: '09:15', text: 'Регистрация' },
-      { from: '11:01', text: 'Посадка' },
-      { from: '11:39', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:15',
-    direction: 'Ломакино',
-    flight: 'S7 1229',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '20',
-    statuses: [
-      { from: '09:15', text: 'Регистрация' },
-      { from: '11:12', text: 'Посадка' },
-      { from: '11:41', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:30',
-    direction: 'Иркутск',
-    flight: 'S7 2233',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '22',
-    statuses: [
-      { from: '09:30', text: 'Регистрация' },
-      { from: '10:53', text: 'Посадка' },
-      { from: '11:31', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:40',
-    direction: 'Санкт-Петербург',
-    flight: 'S7 2003',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '19',
-    statuses: [
-      { from: '09:40', text: 'Регистрация' },
-      { from: '11:00', text: 'Посадка' },
-      { from: '11:51', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:40',
-    direction: 'Минеральные Воды',
-    flight: 'S7 2127',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '16',
-    statuses: [
-      { from: '09:40', text: 'Регистрация' },
-      { from: '11:03', text: 'Посадка' },
-      { from: '11:54', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:45',
-    direction: 'Алматы',
-    flight: 'S7 2501',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '8',
-    statuses: [
-      { from: '09:45', text: 'Регистрация' },
-      { from: '11:24', text: 'Посадка' },
-      { from: '12:05', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '11:55',
-    direction: 'Москва / Домодедово',
-    flight: 'S7 2508',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '7',
-    statuses: [
-      { from: '09:55', text: 'Регистрация' },
-      { from: '11:18', text: 'Посадка' },
-      { from: '12:10', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '12:00',
-    direction: 'Сургут',
-    flight: 'UT 138',
-    airline: 'ЮТэйр',
-    gate: '4',
-    statuses: [
-      { from: '10:30', text: 'Регистрация' },
-      { from: '11:16', text: 'Посадка' },
-      { from: '12:00', text: 'Вылетел' }
-    ]
-  },
-{
-    time: '12:20',
-    flight: 'FV 6315, SU 6315',
-    direction: 'Краснодар',
-    airline: 'Россия, Аэрофлот',
-    gate: '27',
-    statuses: [
-      { from: '11:50', text: 'Регистрация' },
-      { from: '12:10', text: 'Посадка' },
-      { from: '12:20', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '12:25',
-    flight: 'S7 6410',
-    direction: 'Калининград',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '25',
-    statuses: [
-      { from: '12:00', text: 'Регистрация' },
-      { from: '12:15', text: 'Посадка' },
-      { from: '12:25', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '12:30',
-    flight: 'DV 822',
-    direction: 'Астана',
-    airline: 'SCAT Airlines',
-    gate: '11',
-    statuses: [
-      { from: '12:00', text: 'Регистрация' },
-      { from: '12:20', text: 'Посадка' },
-      { from: '12:30', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '12:30',
-    flight: 'FV 6214, SU 6214',
-    direction: 'Москва (SVO)',
-    airline: 'Россия, Аэрофлот',
+    logo: 'images/176598208663.avif',
     gate: '2',
     statuses: [
-      { from: '12:00', text: 'Регистрация' },
-      { from: '12:20', text: 'Посадка' },
-      { from: '12:30', text: 'Вылетел' }
+      { from: '04:10', text: 'Регистрация началась' },
+      { from: '04:15', text: 'Регистрация' },
+      { from: '06:30', text: 'Регистрация окончена' },
+      { from: '06:35', text: 'Посадка началась' },
+      { from: '06:40', text: 'Посадка' },
+      { from: '07:10', text: 'Посадка окончена' },
+      { from: '07:17', text: 'Вылетел' }
     ]
   },
   {
-    time: '13:00',
-    flight: 'FV 6058, SU 6058',
-    direction: 'Москва (SVO)',
-    airline: 'Россия, Аэрофлот',
-    gate: '15',
+    time: '08:35',
+    direction: 'Москва/ШРМ',
+    flight: 'N4-896',
+    airline: 'Северный Ветер',
+    logo: 'images/176598208663.avif',
+    gate: '2',
     statuses: [
-      { from: '12:30', text: 'Регистрация' },
-      { from: '12:50', text: 'Посадка' },
-      { from: '13:00', text: 'Вылетел' }
+      { from: '05:10', text: 'Регистрация началась' },
+      { from: '05:15', text: 'Регистрация' },
+      { from: '07:50', text: 'Регистрация окончена' },
+      { from: '07:55', text: 'Посадка началась' },
+      { from: '07:59', text: 'Посадка' },
+      { from: '08:30', text: 'Посадка окончена' },
+      { from: '08:34', text: 'Вылетел' }
     ]
   },
   {
-    time: '13:00',
-    flight: 'FV 6027, SU 6027',
-    direction: 'Москва (VKO)',
-    airline: 'Россия, Аэрофлот',
-    gate: '7',
-    statuses: [
-      { from: '12:30', text: 'Регистрация' },
-      { from: '12:50', text: 'Посадка' },
-      { from: '13:00', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '13:00',
-    flight: 'N4 281',
-    direction: 'Калининград',
-    airline: 'Nordwind Airlines',
-    gate: '4',
-    statuses: [
-      { from: '12:30', text: 'Регистрация' },
-      { from: '12:50', text: 'Посадка' },
-      { from: '13:00', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '13:10',
-    flight: 'HY 640',
-    direction: 'Самарканд',
-    airline: 'Uzbekistan Airways',
-    gate: '6',
-    statuses: [
-      { from: '12:40', text: 'Регистрация' },
-      { from: '12:55', text: 'Посадка' },
-      { from: '13:10', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '13:15',
-    flight: 'HY 634',
-    direction: 'Ташкент',
-    airline: 'Uzbekistan Airways',
-    gate: '9',
-    statuses: [
-      { from: '12:45', text: 'Регистрация' },
-      { from: '13:00', text: 'Посадка' },
-      { from: '13:15', text: 'Вылетел' }
-    ]
-  },
-  {
-    time: '13:25',
-    flight: 'DP 565',
-    direction: 'Ульяновск (ULV)',
+    time: '11:25',
+    direction: 'Сочи',
+    flight: 'DP-128',
     airline: 'Победа',
-    gate: '22',
+    logo: 'images/176598208663.avif',
+    gate: '3',
     statuses: [
-      { from: '13:00', text: 'Регистрация' },
-      { from: '13:15', text: 'Посадка' },
-      { from: '13:25', text: 'Вылетел' }
+      { from: '08:20', text: 'Регистрация началась' },
+      { from: '08:30', text: 'Регистрация' },
+      { from: '10:40', text: 'Регистрация окончена' },
+      { from: '10:45', text: 'Посадка началась' },
+      { from: '10:50', text: 'Посадка' },
+      { from: '11:24', text: 'Посадка окончена' },
+      { from: '11:29', text: 'Вылетел' }
     ]
   },
   {
-    time: '13:30',
-    flight: 'FV 6333, SU 6333',
-    direction: 'Калининград',
-    airline: 'Россия, Аэрофлот',
-    gate: '27',
+    time: '12:45',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2598',
+    airline: 'Савелий',
+    logo: 'images/176598208663.avif',
+    gate: '3',
     statuses: [
-      { from: '13:00', text: 'Регистрация' },
-      { from: '13:20', text: 'Посадка' },
-      { from: '13:30', text: 'Вылетел' }
+      { from: '09:50', text: 'Регистрация началась' },
+      { from: '10:00', text: 'Регистрация' },
+      { from: '12:04', text: 'Регистрация окончена' },
+      { from: '12:07', text: 'Посадка началась' },
+      { from: '12:11', text: 'Посадка' },
+      { from: '12:44', text: 'Посадка окончена' },
+      { from: '12:47', text: 'Вылетел' }
     ]
   },
   {
-    time: '13:40',
-    flight: 'S7 2004',
-    direction: 'Пафос',
-    airline: 'S7avelii Airlines',
-    logo: 'images/1765982086693.avif',
-    gate: '17',
+    time: '15:20',
+    direction: 'Анталия',
+    flight: 'A4-675',
+    airline: 'Азимут',
+    logo: 'images/176598208663.avif',
+    gate: '1',
     statuses: [
-      { from: '13:10', text: 'Регистрация' },
-      { from: '13:30', text: 'Посадка' },
-      { from: '13:40', text: 'Вылетел' }
+      { from: '12:20', text: 'Регистрация началась' },
+      { from: '12:30', text: 'Регистрация' },
+      { from: '15:38', text: 'Регистрация окончена' },
+      { from: '15:42', text: 'Посадка началась' },
+      { from: '15:49', text: 'Посадка' },
+      { from: '15:19', text: 'Посадка окончена' },
+      { from: '15:22', text: 'Вылетел' }
     ]
   },
   {
-    time: '14:00',
-    flight: 'FV 6216, SU 6216',
-    direction: 'Москва (SVO)',
-    airline: 'Россия, Аэрофлот',
-    gate: 12,
+    time: '17:10',
+    direction: 'Екатеринбург',
+    flight: 'RW-4689',
+    airline: 'РЕД ВИНГС',
+    logo: 'images/176598208663.avif',
+    gate: '1',
     statuses: [
-      { from: '11:30', text: 'Регистрация' },
-      { from: '13:15', text: 'Посадка' },
-      { from: '13:50', text: 'Посадка окончена' },
-      { from: '14:00', text: 'Вылет' }
+      { from: '14:20', text: 'Регистрация началась' },
+      { from: '14:30', text: 'Регистрация' },
+      { from: '16:38', text: 'Регистрация окончена' },
+      { from: '16:42', text: 'Посадка началась' },
+      { from: '16:50', text: 'Посадка' },
+      { from: '17:12', text: 'Посадка окончена' },
+      { from: '17:22', text: 'Вылетел' }
     ]
   },
   {
-    time: '14:00',
-    flight: '5N 517',
-    direction: 'Мурманск',
-    airline: 'Smartavia',
-    gate: 7,
+    time: '19:40',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2569',
+    airline: 'Савелий',
+    logo: 'images/176598208663.avif',
+    gate: '3',
     statuses: [
-      { from: '11:30', text: 'Регистрация' },
-      { from: '13:15', text: 'Посадка' },
-      { from: '13:50', text: 'Посадка окончена' },
-      { from: '14:00', text: 'Вылет' }
+      { from: '16:08', text: 'Регистрация началась' },
+      { from: '16:10', text: 'Регистрация' },
+      { from: '18:55', text: 'Регистрация окончена' },
+      { from: '19:00', text: 'Посадка началась' },
+      { from: '19:05', text: 'Посадка' },
+      { from: '19:19', text: 'Посадка окончена' },
+      { from: '19:39', text: 'Вылетел' }
     ]
   },
   {
-    time: '14:05',
-    flight: 'TK 402',
-    direction: 'Стамбул (IST)',
-    airline: 'Turkish Airlines',
-    gate: 28,
+    time: '21:30',
+    direction: 'Москва/ВНК',
+    flight: 'FV-949',
+    airline: 'Россия',
+    logo: 'images/176598208663.avif',
+    gate: '3',
     statuses: [
-      { from: '11:35', text: 'Регистрация' },
-      { from: '13:20', text: 'Посадка' },
-      { from: '13:55', text: 'Посадка окончена' },
-      { from: '14:05', text: 'Вылет' }
+      { from: '18:08', text: 'Регистрация началась' },
+      { from: '18:10', text: 'Регистрация' },
+      { from: '20:55', text: 'Регистрация окончена' },
+      { from: '21:00', text: 'Посадка началась' },
+      { from: '21:05', text: 'Посадка' },
+      { from: '21:19', text: 'Посадка окончена' },
+      { from: '21:39', text: 'Вылетел' }
     ]
   },
   {
-    time: '14:30',
-    flight: 'FV 6917, SU 6917',
-    direction: 'Москва (VKO)',
-    airline: 'Россия, Аэрофлот',
-    gate: 21,
+    time: '23:30',
+    direction: 'Сургут',
+    flight: 'UT-312',
+    airline: 'Ютэйр',
+    logo: 'images/176598208663.avif',
+    gate: '2',
     statuses: [
-      { from: '12:00', text: 'Регистрация' },
-      { from: '13:45', text: 'Посадка' },
-      { from: '14:20', text: 'Посадка окончена' },
-      { from: '14:30', text: 'Вылет' }
+      { from: '18:08', text: 'Регистрация началась' },
+      { from: '18:10', text: 'Регистрация' },
+      { from: '20:55', text: 'Регистрация окончена' },
+      { from: '21:00', text: 'Посадка началась' },
+      { from: '21:05', text: 'Посадка' },
+      { from: '21:19', text: 'Посадка окончена' },
+      { from: '21:39', text: 'Вылетел' }
     ]
-  },
-  {
-    time: '14:45',
-    flight: 'C6 412',
-    direction: 'Самарканд',
-    airline: 'Centrum Air',
-    gate: 3,
-    statuses: [
-      { from: '12:15', text: 'Регистрация' },
-      { from: '14:00', text: 'Посадка' },
-      { from: '14:35', text: 'Посадка окончена' },
-      { from: '14:45', text: 'Вылет' }
-    ]
-  },
-  {
-    time: '14:50',
-    flight: 'I8 926',
-    direction: 'Ижевск',
-    airline: 'Ижавиа',
-    gate: 11,
-    statuses: [
-      { from: '12:20', text: 'Регистрация' },
-      { from: '14:05', text: 'Посадка' },
-      { from: '14:40', text: 'Посадка окончена' },
-      { from: '14:50', text: 'Вылет' }
-    ]
-  },
-  {
-  time: '15:10',
-  flight: 'S7 5401',
-  direction: 'Южно-Сахалинск',
-  airline: 'S7avelii Airlines',
-  gate: 12,
-  statuses: [
-    { from: '12:40', text: 'Регистрация' },
-    { from: '14:25', text: 'Посадка' },
-    { from: '15:00', text: 'Посадка окончена' },
-    { from: '15:10', text: 'Вылет' }
-  ]
-},
-{
-  time: '15:25',
-  flight: 'S7 5405',
-  direction: 'Санкт-Петербург',
-  airline: 'S7avelii Airlines',
-  gate: 8,
-  statuses: [
-    { from: '12:55', text: 'Регистрация' },
-    { from: '14:40', text: 'Посадка' },
-    { from: '15:15', text: 'Посадка окончена' },
-    { from: '15:25', text: 'Вылет' }
-  ]
-},
-{
-  time: '15:40',
-  flight: 'S7 5410',
-  direction: 'Грозный',
-  airline: 'S7avelii Airlines',
-  gate: 5,
-  statuses: [
-    { from: '13:10', text: 'Регистрация' },
-    { from: '14:55', text: 'Посадка' },
-    { from: '15:30', text: 'Посадка окончена' },
-    { from: '15:40', text: 'Вылет' }
-  ]
-},
-{
-  time: '15:55',
-  flight: 'S7 5415',
-  direction: 'Пенза',
-  airline: 'S7avelii Airlines',
-  gate: 7,
-  statuses: [
-    { from: '13:25', text: 'Регистрация' },
-    { from: '15:00', text: 'Посадка' },
-    { from: '15:45', text: 'Посадка окончена' },
-    { from: '15:55', text: 'Вылет' }
-  ]
-    },
-  
+  }, 
 ];
 
 /* ===== СТАТУС ===== */
