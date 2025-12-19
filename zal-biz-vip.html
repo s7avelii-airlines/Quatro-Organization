@@ -1,1 +1,735 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Международный аэропорт Ломакино</title>
+
+  <!-- Шрифт как на скрине -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+    }
+
+    /* ===== Верхняя панель ===== */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    .top-left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      color: #334155;
+    }
+
+    .top-center {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: #334155;
+    }
+
+    .weather {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .top-right {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    /* ===== Шапка ===== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 32px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 42px;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+    }
+
+    nav span {
+      cursor: pointer;
+    }
+
+    /* ===== Контент ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    .breadcrumbs {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 56px;
+      margin: 0 0 40px;
+      font-weight: 800;
+    }
+
+    /* ===== Переключатель ===== */
+    .tabs {
+      display: flex;
+      gap: 32px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+
+    .tab {
+      color: #d1d5db;
+      position: relative;
+    }
+
+    .tab.active {
+      color: #0f172a;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 3px;
+      background: #22c55e;
+      border-radius: 2px;
+    }
+
+    .time-now {
+      text-align: right;
+      color: #475569;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* ===== Фильтры ===== */
+    .filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .filters input, .filters button {
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: 16px;
+    }
+
+    .filters input {
+      flex: 1;
+    }
+
+    .filters button {
+      background: #22c55e;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ===== Табло ===== */
+    .board {
+      background: transparent;
+      padding: 0;
+    }
+
+    .board-header, .row {
+      display: grid;
+      grid-template-columns: 120px 1.6fr 1fr 1.6fr 1fr 1fr;
+      align-items: center;
+      padding: 20px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 400;
+      width: 100%;
+    }
+
+    .board-header {
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .row {
+      background: white;
+      border-radius: 14px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .airline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .airline img {
+  height: 57px;          /* было 32 */
+  width: auto;
+  object-fit: contain;
+}
+
+    .status {
+      padding: 10px 18px;
+      background: #f8fafc;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #334155;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      h1 { font-size: 40px; }
+      .board-header { display: none; }
+      .row { grid-template-columns: 1fr; gap: 6px; }
+    }
+    nav a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #22c55e;
+}
+    .tab {
+  background: none;
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #d1d5db;
+}
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .tabs {
+    font-size: 22px;
+    gap: 20px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .row div {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+  }
+
+  .row div::before {
+    content: attr(data-label);
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .airline {
+    justify-content: space-between;
+  }
+
+  .status {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- ===== Верх ===== -->
+<div class="topbar">
+  <div class="top-left">САВЕЛИЙ&nbsp;&nbsp;|&nbsp;&nbsp;САРАТОВ</div>
+  <div class="top-center">
+    <span id="date"></span>
+    <div class="weather" id="weather">☀ +6°</div>
+  </div>
+  <div class="top-right">8 962 629 81 05&nbsp;&nbsp;</div>
+</div>
+
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Логотип">
+  </div>
+  <nav>
+  <a href="flights.html">Рейсы</a>
+  <a href="transport.html">Транспорт</a>
+  <a href="zal-biz-vip.html">VIP и бизнес-залы</a>
+  <a href="shops.html">Магазины и кафе</a>
+</nav>
+</header>
+
+<div class="container">
+  <div class="breadcrumbs">Главная / Онлайн-табло</div>
+  <h1>Онлайн-табло</h1>
+
+  <div class="tabs">
+  <button class="tab active" data-type="departure">Вылет</button>
+  <button class="tab" data-type="arrival">Прилёт</button>
+</div>
+
+
+  <div class="time-now" id="time"></div>
+
+  <div class="filters">
+    <input placeholder="Сегодня">
+    <input placeholder="Любое время">
+    <input placeholder="Поиск по номеру рейса, городу и авиакомпании">
+    <button>Искать</button>
+  </div>
+
+  <div style="margin-bottom:16px">
+    <button id="toggleArchive" style="background:none;border:none;color:#22c55e;font-weight:600;cursor:pointer">Показать вылетевшие ▾</button>
+  </div>
+  <div class="board" id="board"></div>
+
+
+
+
+
+<script>
+/* ===== ВРЕМЯ ===== */
+function saratovNow() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utc + 4 * 60 * 60000);
+}
+
+function timeToMinutes(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+/* ===== СОСТОЯНИЕ ===== */
+let boardType = 'departure';
+let showArchive = false;
+
+/* ===== ДАННЫЕ ===== */
+const flights = [
+  {
+    time: '07:15',
+    direction: 'Пенза',
+    flight: 'FV-6499',
+    airline: 'Россия',
+    logo: 'images/1766062981943.avif',
+    gate: '2',
+    statuses: [
+      { from: '04:10', text: 'Регистрация началась' },
+      { from: '04:15', text: 'Регистрация' },
+      { from: '06:30', text: 'Регистрация окончена' },
+      { from: '06:35', text: 'Посадка началась' },
+      { from: '06:40', text: 'Посадка' },
+      { from: '07:10', text: 'Посадка окончена' },
+      { from: '07:17', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '08:35',
+    direction: 'Москва/ШРМ',
+    flight: 'N4-896',
+    airline: 'Северный Ветер',
+    logo: 'images/1766062898599.avif',
+    gate: '2',
+    statuses: [
+      { from: '05:10', text: 'Регистрация началась' },
+      { from: '05:15', text: 'Регистрация' },
+      { from: '07:50', text: 'Регистрация окончена' },
+      { from: '07:55', text: 'Посадка началась' },
+      { from: '07:59', text: 'Посадка' },
+      { from: '08:30', text: 'Посадка окончена' },
+      { from: '08:34', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '11:25',
+    direction: 'Сочи',
+    flight: 'DP-128',
+    airline: 'Победа',
+    logo: 'images/1766063004710.avif',
+    gate: '3',
+    statuses: [
+      { from: '08:20', text: 'Регистрация началась' },
+      { from: '08:30', text: 'Регистрация' },
+      { from: '10:40', text: 'Регистрация окончена' },
+      { from: '10:45', text: 'Посадка началась' },
+      { from: '10:50', text: 'Посадка' },
+      { from: '11:24', text: 'Посадка окончена' },
+      { from: '11:29', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '12:45',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2598',
+    airline: 'Савелий',
+    logo: 'images/1766063324434.avif',
+    gate: '3',
+    statuses: [
+      { from: '09:50', text: 'Регистрация началась' },
+      { from: '10:00', text: 'Регистрация' },
+      { from: '12:04', text: 'Регистрация окончена' },
+      { from: '12:07', text: 'Посадка началась' },
+      { from: '12:11', text: 'Посадка' },
+      { from: '12:44', text: 'Посадка окончена' },
+      { from: '12:47', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '15:20',
+    direction: 'Анталия',
+    flight: 'A4-675',
+    airline: 'Азимут',
+    logo: 'images/1766062951929.avif',
+    gate: '1',
+    statuses: [
+      { from: '12:20', text: 'Регистрация началась' },
+      { from: '12:30', text: 'Регистрация' },
+      { from: '15:38', text: 'Регистрация окончена' },
+      { from: '15:42', text: 'Посадка началась' },
+      { from: '15:49', text: 'Посадка' },
+      { from: '15:19', text: 'Посадка окончена' },
+      { from: '15:22', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '17:10',
+    direction: 'Екатеринбург',
+    flight: 'RW-4689',
+    airline: 'РЕД ВИНГС',
+    logo: 'images/1766062951929.avif',
+    gate: '1',
+    statuses: [
+      { from: '14:20', text: 'Регистрация началась' },
+      { from: '14:30', text: 'Регистрация' },
+      { from: '16:38', text: 'Регистрация окончена' },
+      { from: '16:42', text: 'Посадка началась' },
+      { from: '16:50', text: 'Посадка' },
+      { from: '17:12', text: 'Посадка окончена' },
+      { from: '17:22', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '19:40',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2569',
+    airline: 'Савелий',
+    logo: 'images/1766063324434.avif',
+    gate: '3',
+    statuses: [
+      { from: '16:08', text: 'Регистрация началась' },
+      { from: '16:10', text: 'Регистрация' },
+      { from: '18:55', text: 'Регистрация окончена' },
+      { from: '19:00', text: 'Посадка началась' },
+      { from: '19:05', text: 'Посадка' },
+      { from: '19:19', text: 'Посадка окончена' },
+      { from: '19:39', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '21:30',
+    direction: 'Москва/ВНК',
+    flight: 'FV-949',
+    airline: 'Россия',
+    logo: 'images/1766062981943.avif',
+    gate: '3',
+    statuses: [
+      { from: '18:08', text: 'Регистрация началась' },
+      { from: '18:10', text: 'Регистрация' },
+      { from: '20:55', text: 'Регистрация окончена' },
+      { from: '21:00', text: 'Посадка началась' },
+      { from: '21:05', text: 'Посадка' },
+      { from: '21:19', text: 'Посадка окончена' },
+      { from: '21:39', text: 'Вылетел' }
+    ]
+  },
+  {
+    time: '23:30',
+    direction: 'Сургут',
+    flight: 'UT-312',
+    airline: 'Ютэйр',
+    logo: 'images/1766062883326.avif',
+    gate: '2',
+    statuses: [
+      { from: '18:08', text: 'Регистрация началась' },
+      { from: '18:10', text: 'Регистрация' },
+      { from: '20:55', text: 'Регистрация окончена' },
+      { from: '21:00', text: 'Посадка началась' },
+      { from: '21:05', text: 'Посадка' },
+      { from: '21:19', text: 'Посадка окончена' },
+      { from: '21:39', text: 'Вылетел' }
+    ]
+  }
+];
+
+const arrivals = [
+  {
+    time: '06:15',
+    direction: 'Пенза',
+    flight: 'FV-6499',
+    airline: 'Россия',
+    logo: 'images/1766062981943.avif',
+    gate: '2',
+    statuses: [
+      { from: '06:21', text: 'Совершил посадку' },
+      { from: '06:24', text: 'Прибыл' },
+      { from: '06:30', text: 'Выдача багажа' },
+      { from: '06:30', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '07:40',
+    direction: 'Москва/ШРМ',
+    flight: 'N4-896',
+    airline: 'Северный Ветер',
+    logo: 'images/1766062898599.avif',
+    gate: '2',
+    statuses: [
+      { from: '07:39', text: 'Совершил посадку' },
+      { from: '07:44', text: 'Прибыл' },
+      { from: '07:56', text: 'Выдача багажа' },
+      { from: '08:10', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '10:35',
+    direction: 'Сочи',
+    flight: 'DP-128',
+    airline: 'Победа',
+    logo: 'images/1766063004710.avif',
+    gate: '3',
+    statuses: [
+      { from: '10:36', text: 'Совершил посадку' },
+      { from: '10:40', text: 'Прибыл' },
+      { from: '10:45', text: 'Выдача багажа' },
+      { from: '11:00', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '11:50',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2598',
+    airline: 'Савелий',
+    logo: 'images/1766063324434.avif',
+    gate: '3',
+    statuses: [
+      { from: '11:51', text: 'Совершил посадку' },
+      { from: '11:55', text: 'Прибыл' },
+      { from: '12:09', text: 'Выдача багажа' },
+      { from: '12:25', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '13:10',
+    direction: 'Анталия',
+    flight: 'A4-675',
+    airline: 'Азимут',
+    logo: 'images/1766062951929.avif',
+    gate: '1',
+    statuses: [
+      { from: '13:21', text: 'Совершил посадку' },
+      { from: '13:24', text: 'Прибыл' },
+      { from: '13:30', text: 'Выдача багажа' },
+      { from: '13:30', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '16:20',
+    direction: 'Екатеринбург',
+    flight: 'RW-4689',
+    airline: 'Азимут',
+    logo: 'images/1766062951929.avif',
+    gate: '1',
+    statuses: [
+      { from: '16:21', text: 'Совершил посадку' },
+      { from: '16:27', text: 'Прибыл' },
+      { from: '16:30', text: 'Выдача багажа' },
+      { from: '16:30', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '18:45',
+    direction: 'Савелий/ГСВ',
+    flight: 'S7-2569',
+    airline: 'Савелий',
+    logo: 'images/1766063324434.avif',
+    gate: '3',
+    statuses: [
+      { from: '18:41', text: 'Совершил посадку' },
+      { from: '18:46', text: 'Прибыл' },
+      { from: '18:53', text: 'Выдача багажа' },
+      { from: '19:12', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '20:30',
+    direction: 'Москва/ВНК',
+    flight: 'FV-949',
+    airline: 'Россия',
+    logo: 'images/1766062981943.avif',
+    gate: '3',
+    statuses: [
+      { from: '20:21', text: 'Совершил посадку' },
+      { from: '20:24', text: 'Прибыл' },
+      { from: '20:30', text: 'Выдача багажа' },
+      { from: '20:39', text: 'Выдача завершена' },
+    ]
+  },
+  {
+    time: '22:30',
+    direction: 'Сургут',
+    flight: 'UT-312',
+    airline: 'Ютэйр',
+    logo: 'images/1766062883326.avif',
+    gate: '2',
+    statuses: [
+      { from: '22:31', text: 'Совершил посадку' },
+      { from: '22:37', text: 'Прибыл' },
+      { from: '22:34', text: 'Выдача багажа' },
+      { from: '23:05', text: 'Выдача завершена' },
+    ]
+  }, 
+];
+
+/* ===== СТАТУС ===== */
+function getStatus(flight, nowMin) {
+  let current = 'Ожидание';
+  flight.statuses.forEach(s => {
+    if (nowMin >= timeToMinutes(s.from)) current = s.text;
+  });
+  return current;
+}
+
+/* ===== РЕНДЕР ===== */
+function renderBoard() {
+  const board = document.getElementById('board');
+  const toggle = document.getElementById('toggleArchive');
+  const data = boardType === 'departure' ? flights : arrivals;
+
+  board.innerHTML = `
+    <div class="board-header">
+      <div>${boardType === 'departure' ? 'Вылет' : 'Прилёт'}</div>
+      <div>Направление</div>
+      <div>Рейс</div>
+      <div>Авиакомпания</div>
+      <div>Выход</div>
+      <div>Статус</div>
+    </div>
+  `;
+
+  toggle.textContent = showArchive
+    ? (boardType === 'departure' ? 'Скрыть вылетевшие ▴' : 'Скрыть прибывшие ▴')
+    : (boardType === 'departure' ? 'Показать вылетевшие ▾' : 'Показать прибывшие ▾');
+
+  const now = saratovNow();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+
+  data.forEach(f => {
+    const status = getStatus(f, nowMin);
+    const isArchived =
+      (boardType === 'departure' && status === 'Вылетел') ||
+      (boardType === 'arrival' && status === 'Выдача завершена');
+
+    if (isArchived && !showArchive) return;
+
+    board.innerHTML += `
+      <div class="row ${isArchived ? 'archived' : ''}">
+        <div>${f.time}</div>
+        <div>${f.direction}</div>
+        <div>${f.flight}</div>
+        <div class="airline"><img src="${f.logo}">${f.airline}</div>
+        <div>${f.gate}</div>
+        <div class="status">${status}</div>
+      </div>
+    `;
+  });
+}
+
+/* ===== ТАБЫ ===== */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    boardType = tab.dataset.type;
+    showArchive = false;
+    renderBoard();
+  });
+});
+
+/* ===== АРХИВ ===== */
+document.getElementById('toggleArchive').onclick = () => {
+  showArchive = !showArchive;
+  renderBoard();
+};
+
+/* ===== ВРЕМЯ ===== */
+function updateTime() {
+  const now = saratovNow();
+  document.getElementById('time').textContent =
+    now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' (UTC+4)';
+  document.getElementById('date').textContent =
+    now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+}
+
+/* ===== СТАРТ ===== */
+renderBoard();
+updateTime();
+setInterval(renderBoard, 30000);
+setInterval(updateTime, 30000);
+</script>
+</body>
+</html>
 
